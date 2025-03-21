@@ -1,155 +1,146 @@
 <template>
-    <div class="login-container">
-      <div class="login-form">
-        <h1>Login</h1>
-        <div v-if="error" class="error-message">{{ error }}</div>
-        
-        <form @submit.prevent="handleLogin">
-          <div class="form-group">
-            <label for="username">Username</label>
-            <input 
-              type="text" 
-              id="username" 
-              v-model="username" 
-              placeholder="Enter your username"
-              required
-            />
-          </div>
-          
-          <div class="form-group">
-            <label for="password">Password</label>
-            <input 
-              type="password" 
-              id="password" 
-              v-model="password" 
-              placeholder="Enter your password"
-              required
-            />
-          </div>
-          
-          <button 
-            type="submit" 
-            class="login-button" 
-            :disabled="isLoading"
-          >
-            {{ isLoading ? 'Logging in...' : 'Login' }}
-          </button>
-        </form>
-      </div>
+  <div class="dashboard-container">
+    <h1>Dashboard użytkownika</h1>
+    <div v-if="loading" class="loading">Ładowanie...</div>
+    <div v-else-if="error" class="error">{{ error }}</div>
+    <div v-else>
+      <h2>Witaj, {{ dashboardData.username }}</h2>
+      
+      <section class="section">
+        <h3>Wypożyczone książki</h3>
+        <ul>
+          <li v-for="book in dashboardData.rented_books" :key="book.id">
+            {{ book.book_title }} - {{ book.book_author }} ({{ book.due_date }})
+          </li>
+        </ul>
+      </section>
+      
+      <section class="section">
+        <h3>Historia wypożyczeń</h3>
+        <ul>
+          <li v-for="book in dashboardData.rented_books_old" :key="book.id">
+            {{ book.book_title }} - {{ book.book_author }} (Zwrócono: {{ book.return_date }})
+          </li>
+        </ul>
+      </section>
+      
+      <section class="section">
+        <h3>Powiadomienia</h3>
+        <ul>
+          <li v-for="notification in dashboardData.notifications" :key="notification.id">
+            {{ notification.message }}
+          </li>
+        </ul>
+      </section>
+      
+      <section class="section">
+        <h3>Twoje opinie</h3>
+        <ul>
+          <li v-for="opinion in dashboardData.opinions" :key="opinion.id">
+            {{ opinion.book_title }} - Ocena: {{ opinion.rate }}<br>
+            {{ opinion.comment }}
+          </li>
+        </ul>
+      </section>
+      
+      <section class="section">
+        <h3>Rekomendacje AI</h3>
+        <ul>
+          <li v-for="(recommendation, index) in dashboardData.ai_recommendations" :key="index">
+            {{ recommendation }}
+          </li>
+        </ul>
+      </section>
+      
+      <section class="section">
+        <h3>Odznaki</h3>
+        <ul>
+          <li v-if="dashboardData.badges.first_book">Pierwsza książka wypożyczona</li>
+          <li v-if="dashboardData.badges.ten_books">Wypożyczono 10 książek</li>
+          <li v-if="dashboardData.badges.twenty_books">Wypożyczono 20 książek</li>
+          <li v-if="dashboardData.badges.hundred_books">Wypożyczono 100 książek</li>
+          <li v-if="dashboardData.badges.three_categories">Wypożyczono książki z 3 różnych kategorii</li>
+        </ul>
+      </section>
     </div>
-  </template>
-  
-  <script>
-  import { login } from '@/api/authService';
-  
-  export default {
-    name: 'LoginView',
-    data() {
-      return {
-        username: '',
-        password: '',
-        error: '',
-        isLoading: false
-      };
-    },
-    methods: {
-      async handleLogin() {
-        this.error = '';
-        this.isLoading = true;
-        
-        try {
-          await login(this.username, this.password);
-          
-          this.$router.push('/dashboard/customer/');
-        } catch (err) {
-          if (err.response) {
-            // Handle different error responses
-            if (err.response.status === 401) {
-              this.error = 'Invalid username or password';
-            } else if (err.response.data && err.response.data.detail) {
-              this.error = err.response.data.detail;
-            } else {
-              this.error = 'Login failed. Please try again.';
-            }
-          } else {
-            this.error = 'Network error. Please check your connection.';
-          }
-        } finally {
-          this.isLoading = false;
-        }
-      }
+  </div>
+</template>
+
+<script>
+import authService from '@/helpers/auth'
+
+export default {
+  data() {
+    return {
+      dashboardData: null,
+      loading: true,
+      error: null,
     }
-  };
-  </script>
-  
-  <style scoped>
-  .login-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background-color: #f5f5f5;
+  },
+  async created() {
+    try {
+      const response = await authService.getDashboardCustomer()
+      this.dashboardData = response.data
+    } catch (err) {
+      this.error = 'Błąd podczas pobierania danych'
+      console.error(err)
+    } finally {
+      this.loading = false
+    }
   }
-  
-  .login-form {
-    background-color: white;
-    padding: 2rem;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    max-width: 400px;
-  }
-  
-  h1 {
-    text-align: center;
-    margin-bottom: 1.5rem;
-    color: #333;
-  }
-  
-  .form-group {
-    margin-bottom: 1rem;
-  }
-  
-  label {
-    display: block;
-    margin-bottom: 0.5rem;
-    font-weight: 500;
-  }
-  
-  input {
-    width: 100%;
-    padding: 0.75rem;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-size: 1rem;
-  }
-  
-  .login-button {
-    width: 100%;
-    padding: 0.75rem;
-    background-color: #4caf50;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    font-size: 1rem;
-    cursor: pointer;
-    margin-top: 1rem;
-  }
-  
-  .login-button:hover {
-    background-color: #45a049;
-  }
-  
-  .login-button:disabled {
-    background-color: #cccccc;
-    cursor: not-allowed;
-  }
-  
-  .error-message {
-    background-color: #ffebee;
-    color: #d32f2f;
-    padding: 0.75rem;
-    border-radius: 4px;
-    margin-bottom: 1rem;
-  }
-  </style>
+}
+</script>
+
+<style scoped>
+.dashboard-container {
+  max-width: 800px;
+  margin: 50px auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+  text-align: center;
+  color: #333;
+}
+
+.loading {
+  text-align: center;
+  font-size: 18px;
+  color: #555;
+}
+
+.error {
+  color: red;
+  text-align: center;
+  margin-top: 10px;
+}
+
+.section {
+  margin-top: 20px;
+  padding: 15px;
+  background: white;
+  border-radius: 5px;
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+li {
+  margin-bottom: 10px;
+  padding: 10px;
+  background: #eef;
+  border-radius: 5px;
+}
+
+h3 {
+  margin-bottom: 10px;
+  color: #444;
+}
+</style>

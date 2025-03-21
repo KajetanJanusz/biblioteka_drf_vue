@@ -1,155 +1,119 @@
 <template>
-    <div class="login-container">
-      <div class="login-form">
-        <h1>Login</h1>
-        <div v-if="error" class="error-message">{{ error }}</div>
-        
-        <form @submit.prevent="handleLogin">
-          <div class="form-group">
-            <label for="username">Username</label>
-            <input 
-              type="text" 
-              id="username" 
-              v-model="username" 
-              placeholder="Enter your username"
-              required
-            />
-          </div>
-          
-          <div class="form-group">
-            <label for="password">Password</label>
-            <input 
-              type="password" 
-              id="password" 
-              v-model="password" 
-              placeholder="Enter your password"
-              required
-            />
-          </div>
-          
-          <button 
-            type="submit" 
-            class="login-button" 
-            :disabled="isLoading"
-          >
-            {{ isLoading ? 'Logging in...' : 'Login' }}
-          </button>
-        </form>
+  <div class="login-container">
+    <h2>Logowanie</h2>
+    <form @submit.prevent="handleLogin">
+      <div class="form-group">
+        <label for="username">Nazwa użytkownika</label>
+        <input v-model="credentials.username" type="text" id="username" required />
       </div>
-    </div>
-  </template>
-  
-  <script>
-  import { login } from '@/api/authService';
-  
-  export default {
-    name: 'LoginView',
-    data() {
-      return {
+      <div class="form-group">
+        <label for="password">Hasło</label>
+        <input v-model="credentials.password" type="password" id="password" required />
+      </div>
+      <button type="submit" :disabled="loading">Zaloguj</button>
+      <p v-if="error" class="error">{{ error }}</p>
+    </form>
+  </div>
+</template>
+
+<script>
+import authService from '@/helpers/auth'
+
+export default {
+  data() {
+    return {
+      credentials: {
         username: '',
-        password: '',
-        error: '',
-        isLoading: false
-      };
-    },
-    methods: {
-      async handleLogin() {
-        this.error = '';
-        this.isLoading = true;
-        
-        try {
-          await login(this.username, this.password);
-          
-          this.$router.push('/dashboard/customer/');
-        } catch (err) {
-          if (err.response) {
-            // Handle different error responses
-            if (err.response.status === 401) {
-              this.error = 'Invalid username or password';
-            } else if (err.response.data && err.response.data.detail) {
-              this.error = err.response.data.detail;
-            } else {
-              this.error = 'Login failed. Please try again.';
-            }
-          } else {
-            this.error = 'Network error. Please check your connection.';
-          }
-        } finally {
-          this.isLoading = false;
-        }
+        password: ''
+      },
+      loading: false,
+      error: null
+    }
+  },
+  methods: {
+    async handleLogin() {
+      this.loading = true
+      this.error = null
+      try {
+        await authService.login(this.credentials)
+        this.$router.push('/dashboard/customer/') // Przekierowanie po zalogowaniu
+      } catch (err) {
+        this.error = 'Nieprawidłowe dane logowania'
+      } finally {
+        this.loading = false
       }
     }
-  };
-  </script>
-  
-  <style scoped>
-  .login-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background-color: #f5f5f5;
   }
-  
-  .login-form {
-    background-color: white;
-    padding: 2rem;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    max-width: 400px;
-  }
-  
-  h1 {
-    text-align: center;
-    margin-bottom: 1.5rem;
-    color: #333;
-  }
-  
-  .form-group {
-    margin-bottom: 1rem;
-  }
-  
-  label {
-    display: block;
-    margin-bottom: 0.5rem;
-    font-weight: 500;
-  }
-  
-  input {
-    width: 100%;
-    padding: 0.75rem;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-size: 1rem;
-  }
-  
-  .login-button {
-    width: 100%;
-    padding: 0.75rem;
-    background-color: #4caf50;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    font-size: 1rem;
-    cursor: pointer;
-    margin-top: 1rem;
-  }
-  
-  .login-button:hover {
-    background-color: #45a049;
-  }
-  
-  .login-button:disabled {
-    background-color: #cccccc;
-    cursor: not-allowed;
-  }
-  
-  .error-message {
-    background-color: #ffebee;
-    color: #d32f2f;
-    padding: 0.75rem;
-    border-radius: 4px;
-    margin-bottom: 1rem;
-  }
-  </style>
+}
+</script>
+
+<style scoped>
+.login-container {
+  max-width: 400px;
+  margin: 50px auto;
+  padding: 30px;
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+h2 {
+  margin-bottom: 20px;
+  color: #333;
+  font-weight: 600;
+}
+
+.form-group {
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+  color: #555;
+  font-size: 14px;
+}
+
+input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  transition: border-color 0.3s ease;
+}
+
+input:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+button {
+  width: 100%;
+  padding: 10px;
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+button:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+button:hover:not(:disabled) {
+  background: #0056b3;
+}
+
+.error {
+  color: red;
+  margin-top: 10px;
+  font-size: 14px;
+}
+</style>

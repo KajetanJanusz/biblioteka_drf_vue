@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import LoginView from '@/views/Login.vue'
-import Dashboard from '@/views/DashboardCustomer.vue'
+import DashboardCustomer from '@/views/DashboardCustomer.vue'
 
 const routes = [
   {
@@ -16,17 +16,16 @@ const routes = [
   {
     path: '/dashboard/customer/',
     name: 'Dashboard-customer',
-    component: Dashboard-customer,
+    component: DashboardCustomer,
     meta: { requiresAuth: true }
   }
 ]
 
 const router = createRouter({
-  history: createWebHistory(process.env.BASE_URL),
+  history: createWebHistory(),
   routes
 })
 
-// Navigation guard to protect routes and check authentication
 router.beforeEach((to, from, next) => {
   const isAuthenticated = localStorage.getItem('accessToken') !== null;
   
@@ -35,7 +34,7 @@ router.beforeEach((to, from, next) => {
     next('/login');
   } else if (to.path === '/login' && isAuthenticated) {
     // Redirect to dashboard if already logged in and trying to access login page
-    next('/dashboard');
+    next('/dashboard/customer/');
   } else {
     next();
   }
