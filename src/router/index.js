@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import LoginView from '@/views/Login.vue'
 import DashboardCustomer from '@/views/DashboardCustomer.vue'
+import DashboardEmployee from '@/views/DashboardEmployee.vue'
 
 const routes = [
   {
@@ -17,6 +18,12 @@ const routes = [
     path: '/dashboard/customer/',
     name: 'Dashboard-customer',
     component: DashboardCustomer,
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/dashboard/employee/',
+    name: 'Dashboard-employee',
+    component: DashboardEmployee,
     meta: { requiresAuth: true }
   }
 ]

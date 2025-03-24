@@ -82,8 +82,8 @@ export default {
       const response = await authService.getDashboardCustomer()
       this.dashboardData = response.data
     } catch (err) {
-      this.error = 'Błąd podczas pobierania danych'
-      console.error(err)
+      this.error = err
+      this.$router.push('/dashboard/employee/')
     } finally {
       this.loading = false
     }

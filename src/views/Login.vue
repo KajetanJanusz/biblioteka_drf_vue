@@ -36,7 +36,7 @@ export default {
       this.error = null
       try {
         await authService.login(this.credentials)
-        this.$router.push('/dashboard/customer/') // Przekierowanie po zalogowaniu
+        this.$router.push('/dashboard/customer/')
       } catch (err) {
         this.error = 'Nieprawidłowe dane logowania'
       } finally {

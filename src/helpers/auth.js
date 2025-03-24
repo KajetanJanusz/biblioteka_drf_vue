@@ -25,6 +25,10 @@ export default {
   getDashboardCustomer() {
     return apiClient.get('/dashboard/customer/')
   },
+
+  getDashboardEmployee() {
+    return apiClient.get('/dashboard/employee/')
+  },
   
   // Sprawdzenie czy użytkownik jest zalogowany
   isAuthenticated() {
