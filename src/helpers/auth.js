@@ -5,7 +5,6 @@ export default {
     return apiClient.post('token/', credentials)
       .then(response => {
         const { access, refresh } = response.data
-        // Zapisz tokeny w localStorage
         localStorage.setItem('accessToken', access)
         localStorage.setItem('refresh_token', refresh)
         return response
@@ -13,15 +12,21 @@ export default {
   },
   
   logout() {
-    // Usuń tokeny z localStorage
     localStorage.removeItem('accessToken')
     localStorage.removeItem('refreshToken')
   },
   
-  getUser() {
-    return apiClient.get('/user/') // Endpoint do pobrania danych użytkownika
+  getUsers() {
+    return apiClient.get('/users/')
   },
 
+  getBooks() {
+    return apiClient.get('/books/')
+  },
+
+  getBookDetail( bookId ) {
+    return apiClient.get(`/books/details/${bookId}`)
+  },
   getDashboardCustomer() {
     return apiClient.get('/dashboard/customer/')
   },
@@ -30,7 +35,6 @@ export default {
     return apiClient.get('/dashboard/employee/')
   },
   
-  // Sprawdzenie czy użytkownik jest zalogowany
   isAuthenticated() {
     return !!localStorage.getItem('accessToken')
   }

@@ -1,6 +1,10 @@
 <template>
   <div class="dashboard-container">
     <h1>Dashboard użytkownika</h1>
+    <div class="menu">
+        <li><router-link to="/books">Książki</router-link></li>
+        <li @click="logout">Wyloguj</li>
+    </div>
     <div v-if="loading" class="loading">Ładowanie...</div>
     <div v-else-if="error" class="error">{{ error }}</div>
     <div v-else>
@@ -87,44 +91,60 @@ export default {
     } finally {
       this.loading = false
     }
+  },
+  methods: {
+    toggleDropdown() {
+      this.dropdownOpen = !this.dropdownOpen
+    },
+    toggleSection(index) {
+      this.expanded[index] = !this.expanded[index]
+    },
+    formatItem(item) {
+      if (item.book_title) return `${item.book_title} - ${item.book_author || ''} (${item.due_date || item.return_date || ''})`
+      return item.message
+    },
+    logout() {
+      authService.logout()
+      this.$router.push('/login')
+    }
   }
 }
 </script>
 
 <style scoped>
 .dashboard-container {
-  max-width: 800px;
-  margin: 50px auto;
+  max-width: 1200px;
+  margin: 0 auto;
   padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  background-color: #f9f9f9;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-}
-
-h1 {
-  text-align: center;
+  font-family: 'Roboto', 'Open Sans', sans-serif;
   color: #333;
 }
 
-.loading {
-  text-align: center;
-  font-size: 18px;
-  color: #555;
+h1 {
+  color: #2c3e50;
+  border-bottom: 2px solid #3498db;
+  padding-bottom: 10px;
+  margin-bottom: 30px;
 }
 
-.error {
-  color: red;
-  text-align: center;
-  margin-top: 10px;
+h2 {
+  color: #2980b9;
+  margin-bottom: 20px;
+}
+
+h3 {
+  color: #3498db;
+  margin-bottom: 15px;
+  border-left: 3px solid #3498db;
+  padding-left: 10px;
 }
 
 .section {
-  margin-top: 20px;
-  padding: 15px;
-  background: white;
-  border-radius: 5px;
-  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin-bottom: 25px;
 }
 
 ul {
@@ -133,14 +153,146 @@ ul {
 }
 
 li {
-  margin-bottom: 10px;
-  padding: 10px;
-  background: #eef;
-  border-radius: 5px;
+  padding: 12px 0;
+  border-bottom: 1px solid #eee;
 }
 
-h3 {
-  margin-bottom: 10px;
-  color: #444;
+li:last-child {
+  border-bottom: none;
+}
+
+.loading {
+  text-align: center;
+  padding: 30px;
+  font-size: 18px;
+  color: #7f8c8d;
+}
+
+.error {
+  background-color: #f8d7da;
+  color: #721c24;
+  padding: 15px;
+  border-radius: 5px;
+  margin-bottom: 20px;
+}
+
+/* Dodatkowe style dla odznaki */
+.section:nth-child(7) li {
+  position: relative;
+  padding-left: 30px;
+}
+
+.section:nth-child(7) li:before {
+  content: "🏆";
+  position: absolute;
+  left: 0;
+  top: 10px;
+}
+
+/* Style dla powiadomień */
+.section:nth-child(4) li {
+  background-color: #f9f9f9;
+  padding: 12px 15px;
+  border-radius: 5px;
+  border-left: 3px solid #3498db;
+  margin-bottom: 8px;
+}
+
+/* Style dla gwiazdek przy opiniach */
+.section:nth-child(5) li {
+  padding-bottom: 18px;
+}
+
+/* Style dla rekomendacji */
+.section:nth-child(6) li {
+  background-color: #ebf5fb;
+  padding: 12px 15px;
+  border-radius: 5px;
+  border-left: 3px solid #2ecc71;
+  margin-bottom: 8px;
+}
+.menu {
+  position: relative;
+  display: inline-block;
+}
+
+.menu-button {
+  background: #0073e6;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.menu-button:hover {
+  background: #005bb5;
+}
+
+.dropdown {
+  position: absolute;
+  right: 0;
+  top: 100%;
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  list-style: none;
+  padding: 10px 0;
+  margin: 5px 0 0;
+  width: 150px;
+  z-index: 10;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.dropdown li {
+  padding: 10px;
+  text-align: center;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.dropdown li:hover {
+  background: #f1f1f1;
+}
+
+.dropdown a {
+  text-decoration: none;
+  color: black;
+  display: block;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsywność */
+@media (max-width: 600px) {
+  .dropdown {
+    width: 100%;
+    text-align: left;
+  }
+}
+
+
+
+/* Responsywność */
+@media (max-width: 768px) {
+  .dashboard-container {
+    padding: 10px;
+  }
+  
+  .section {
+    padding: 15px;
+  }
 }
 </style>

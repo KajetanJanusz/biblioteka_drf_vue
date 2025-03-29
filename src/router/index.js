@@ -2,6 +2,8 @@ import { createRouter, createWebHistory } from 'vue-router'
 import LoginView from '@/views/Login.vue'
 import DashboardCustomer from '@/views/DashboardCustomer.vue'
 import DashboardEmployee from '@/views/DashboardEmployee.vue'
+import ListBooks from '@/views/ListBooks.vue'
+import DetailsBook from '@/views/DetailsBook.vue'
 
 const routes = [
   {
@@ -24,6 +26,18 @@ const routes = [
     path: '/dashboard/employee/',
     name: 'Dashboard-employee',
     component: DashboardEmployee,
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/books/',
+    name: 'Books',
+    component: ListBooks,
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/books/details/:id',
+    name: 'DetailsBook',
+    component: DetailsBook,
     meta: { requiresAuth: true }
   }
 ]
