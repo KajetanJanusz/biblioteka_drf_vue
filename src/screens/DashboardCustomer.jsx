@@ -1,0 +1,230 @@
+// src/screens/DashboardCustomer.jsx
+import React, { useEffect, useState } from 'react';
+import { dashboardApi } from '../services/apiServices';
+import { useNavigate } from 'react-router-dom';
+
+const DashboardCustomer = () => {
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const token = localStorage.getItem('accessToken');
+        if (!token) {
+          alert('Brak tokena, zaloguj się ponownie');
+          navigate('/');
+          return;
+        }
+        const resp = await dashboardApi.getCustomerDashboard();
+        setData(resp.data);
+      } catch {
+        navigate('/dashboard-employee');
+      } finally {
+        setLoading(false);
+      }
+    })();
+  }, [navigate]);
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <span>Ładowanie…</span>
+      </div>
+    );
+  }
+
+  if (!data) {
+    return (
+      <div className="p-4 text-center italic text-gray-600">
+        Błąd ładowania danych
+      </div>
+    );
+  }
+
+  const formatDate = (d) => new Date(d).toLocaleDateString();
+  const daysRemaining = (d) => {
+    const diff = Math.ceil((new Date(d).getTime() - Date.now()) / (1000 * 60 * 60 * 24));
+    if (diff < 0) return `${-diff} dni opóźnienia`;
+    if (diff === 0) return 'Termin dziś';
+    return `${diff} dni`;
+  };
+
+  return (
+    <div className="min-h-screen bg-gray-100">
+      {/* HEADER */}
+      <header className="bg-blue-800 text-white flex items-center p-4">
+        <button
+          onClick={() => setMenuOpen((o) => !o)}
+          className="mr-4 focus:outline-none"
+        >
+          <span className="block w-6 h-0.5 bg-white mb-1" />
+          <span className="block w-6 h-0.5 bg-white mb-1" />
+          <span className="block w-6 h-0.5 bg-white" />
+        </button>
+        <h1 className="text-2xl font-bold">Profil czytelnika</h1>
+      </header>
+
+      {/* SIDE MENU */}
+      <aside
+        className={
+          'fixed top-0 left-0 h-full w-64 bg-white shadow transform transition-transform ' +
+          (menuOpen ? 'translate-x-0' : '-translate-x-full')
+        }
+      >
+        <div className="p-4 bg-blue-800 text-white">Menu</div>
+        <nav className="p-4 space-y-2">
+          <button
+            onClick={() => {
+              navigate('/dashboard-customer');
+              setMenuOpen(false);
+            }}
+            className="block w-full text-left"
+          >
+            Strona główna
+          </button>
+          <button
+            onClick={() => {
+              navigate('/books');
+              setMenuOpen(false);
+            }}
+            className="block w-full text-left"
+          >
+            Książki
+          </button>
+          <button
+            onClick={() => {
+              navigate('/logout');
+              setMenuOpen(false);
+            }}
+            className="block w-full text-left"
+          >
+            Wyloguj się
+          </button>
+        </nav>
+      </aside>
+      {menuOpen && (
+        <div
+          onClick={() => setMenuOpen(false)}
+          className="fixed inset-0 bg-black opacity-50"
+        />
+      )}
+
+      {/* MAIN CONTENT */}
+      <main className="p-4">
+        {/* Welcome */}
+        <section className="bg-white p-6 mb-4 shadow">
+          <h2 className="text-xl">Witaj, {data.username}!</h2>
+        </section>
+
+        {/* Achievements */}
+        <section className="bg-white p-6 mb-4 shadow">
+          <h3 className="text-lg mb-2">🏆 Osiągnięcia</h3>
+          <div className="flex flex-wrap gap-2">
+            {data.badges.first_book && (
+              <span className="px-3 py-1 bg-blue-800 text-white rounded-full">
+                Pierwsza książka
+              </span>
+            )}
+            {data.badges.ten_books && (
+              <span className="px-3 py-1 bg-blue-800 text-white rounded-full">
+                10 książek
+              </span>
+            )}
+            {data.badges.twenty_books && (
+              <span className="px-3 py-1 bg-blue-800 text-white rounded-full">
+                20 książek
+              </span>
+            )}
+            {data.badges.hundred_books && (
+              <span className="px-3 py-1 bg-blue-800 text-white rounded-full">
+                100 książek
+              </span>
+            )}
+            {data.badges.three_categories && (
+              <span className="px-3 py-1 bg-blue-800 text-white rounded-full">
+                3 kategorie
+              </span>
+            )}
+          </div>
+        </section>
+
+        {/* Stats */}
+        <section className="bg-white p-6 mb-4 shadow flex justify-around">
+          <div className="text-center">
+            <div className="text-2xl font-bold">{data.all_my_rents}</div>
+            <div>Przeczytane</div>
+          </div>
+          <div className="text-center">
+            <div className="text-2xl font-bold">
+              {data.average_user_rents.toFixed(1)}
+            </div>
+            <div>Śr. wypożyczeń</div>
+          </div>
+        </section>
+
+        {/* Favorite Categories */}
+        <section className="bg-white p-6 mb-4 shadow">
+          <h3 className="text-lg mb-2">📚 Ulubione kategorie</h3>
+          <div className="flex overflow-x-auto gap-4">
+            {data.books_in_categories.length ? (
+              data.books_in_categories.map((c, i) => (
+                <div
+                  key={i}
+                  className="min-w-[140px] p-4 border rounded"
+                >
+                  <div className="font-bold">
+                    {c.book_copy__book__category__name}
+                  </div>
+                  <div>{c.count} książki</div>
+                </div>
+              ))
+            ) : (
+              <div className="italic">Brak ulubionych kategorii</div>
+            )}
+          </div>
+        </section>
+
+        {/* Currently Rented */}
+        <section className="mb-4">
+          <h3 className="text-lg mb-2">📚 Aktualnie wypożyczone</h3>
+          {data.rented_books.length ? (
+            data.rented_books.map((b) => (
+              <div
+                key={b.id}
+                className="bg-white p-4 mb-3 rounded shadow border-l-4 border-blue-800 cursor-pointer"
+                onClick={() => navigate(`/return-book/${b.rentalId}`)}
+              >
+                <div className="flex justify-between">
+                  <div className="font-bold">{b.book_title}</div>
+                </div>
+                <div className="text-sm text-gray-600">
+                  by {b.book_author}
+                </div>
+                <div
+                  className={
+                    'inline-block mt-2 px-2 py-1 text-xs rounded text-white ' +
+                    (b.is_extended ? 'bg-gray-600' : 'bg-blue-800')
+                  }
+                >
+                  {b.is_extended ? 'Przedłużony' : daysRemaining(b.due_date)}
+                </div>
+                <div className="text-xs text-gray-600 mt-1">
+                  {formatDate(b.rental_date)} – {formatDate(b.due_date)}
+                </div>
+              </div>
+            ))
+          ) : (
+            <div className="italic">Brak aktualnych wypożyczeń</div>
+          )}
+        </section>
+
+        {/* Dalej możesz analogicznie dodać: historia wypożyczeń, powiadomienia, rekomendacje i oceny */}
+      </main>
+    </div>
+  );
+};
+
+export default DashboardCustomer;
