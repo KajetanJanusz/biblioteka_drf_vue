@@ -1,13 +1,13 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { dashboardApi } from '../services/apiServices';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import { useNavigate } from 'react-router-dom';
 
 const DashboardEmployee = () => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef(null);
-  const navigate = useNavigate(); // Initialize useNavigate
+  const navigate = useNavigate();
 
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
@@ -33,7 +33,7 @@ const DashboardEmployee = () => {
         const token = localStorage.getItem('accessToken');
         if (!token) {
           alert('Error: No access token found');
-          navigate('/login'); // Use navigate for redirection
+          navigate('/login');
           return;
         }
 
@@ -47,13 +47,29 @@ const DashboardEmployee = () => {
     };
 
     fetchDashboardData();
-  }, [navigate]); // Include navigate in the dependency array
+  }, [navigate]);
 
   const formatDate = (dateString) => {
     if (!dateString) return "N/A";
     const date = new Date(dateString);
     return date.toLocaleDateString();
   };
+
+  if (loading) {
+    return (
+      <div className="loader-container">
+        <div className="loader"></div>
+      </div>
+    );
+  }
+
+  if (!data) {
+    return (
+      <div className="error-text">
+        Błąd ładowania danych
+      </div>
+    );
+  }
 
   return (
     <div className="main-container">
@@ -177,7 +193,7 @@ const DashboardEmployee = () => {
             <div
               key={item.id ? item.id.toString() : `rented-${index}`}
               className="book-item"
-              onClick={() => { console.log(item); window.location.href = `/returnApprove/${item.id}`; }}
+              onClick={() => navigate(`/return-approve/${item.id}`)}
             >
               <div className="return-item">
                 <h4 className="return-title">{item.book_copy__book__title}</h4>
@@ -189,298 +205,6 @@ const DashboardEmployee = () => {
           <p className="empty-list">Brak zwrotów do zatwierdzenia</p>
         )}
       </div>
-
-      <style jsx>{`
-        * {
-          margin: 0;
-          padding: 0;
-          box-sizing: border-box;
-          font-family: Georgia, serif;
-        }
-
-        .main-container {
-          position: relative;
-          background-color: #2c3e50;
-          min-height: 100vh;
-          overflow-x: hidden;
-        }
-
-        .header {
-          display: flex;
-          align-items: center;
-          background-color: #2c3e50;
-          padding: 16px;
-          box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-        }
-
-        .header-title {
-          font-size: 22px;
-          font-weight: bold;
-          color: #f9f7f1;
-          margin-left: 16px;
-        }
-
-        .menu-button {
-          background: none;
-          border: none;
-          cursor: pointer;
-          padding: 8px;
-        }
-
-        .menu-icon {
-          width: 24px;
-          height: 24px;
-          display: flex;
-          flex-direction: column;
-          justify-content: space-around;
-        }
-
-        .menu-bar {
-          height: 3px;
-          width: 24px;
-          background-color: #f9f7f1;
-          border-radius: 2px;
-          margin: 2px 0;
-        }
-
-        .overlay {
-          position: fixed;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          background-color: rgba(0, 0, 0, 0.6);
-          z-index: 1;
-        }
-
-        .menu {
-          position: fixed;
-          top: 0;
-          left: -70%;
-          width: 70%;
-          height: 100%;
-          background-color: #f9f7f1;
-          z-index: 2;
-          box-shadow: 2px 0 8px rgba(0,0,0,0.5);
-          transition: left 0.3s ease;
-          overflow-y: auto;
-        }
-
-        .menu.open {
-          left: 0;
-        }
-
-        .menu-header {
-          padding: 24px;
-          background-color: #2c3e50;
-        }
-
-        .menu-title {
-          font-size: 22px;
-          font-weight: bold;
-          color: #f9f7f1;
-        }
-
-        .menu-item {
-          display: block;
-          width: 100%;
-          text-align: left;
-          padding: 18px;
-          border: none;
-          border-bottom: 1px solid #e8e0d5;
-          background: none;
-          cursor: pointer;
-        }
-
-        .menu-item-text {
-          font-size: 16px;
-          color: #2c3e50;
-        }
-
-        .container {
-          padding: 16px;
-          background-color: #f9f7f1;
-          height: calc(100vh - 64px);
-          overflow-y: auto;
-        }
-
-        .loader-container {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          height: 100vh;
-          background-color: #f9f7f1;
-        }
-
-        .loader {
-          border: 4px solid #f3f3f3;
-          border-top: 4px solid #0066CC;
-          border-radius: 50%;
-          width: 50px;
-          height: 50px;
-          animation: spin 2s linear infinite;
-        }
-
-        @keyframes spin {
-          0% { transform: rotate(0deg); }
-          100% { transform: rotate(360deg); }
-        }
-
-        .error-text {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          height: 100vh;
-          padding: 20px;
-          color: #922b21;
-          text-align: center;
-          font-weight: bold;
-          background-color: #f9f7f1;
-        }
-
-        .title {
-          font-size: 24px;
-          font-weight: bold;
-          margin-bottom: 16px;
-          color: #2c3e50;
-        }
-
-        .section-title {
-          font-size: 18px;
-          font-weight: bold;
-          margin-top: 16px;
-          margin-bottom: 8px;
-          color: #2c3e50;
-        }
-
-        .empty-list {
-          font-style: italic;
-          color: #7d6e56;
-          text-align: center;
-          padding: 8px;
-        }
-
-        .book-item {
-          background-color: #fff;
-          padding: 16px;
-          margin-bottom: 12px;
-          border-radius: 8px;
-          border-left: 4px solid #2c3e50;
-          box-shadow: 0 2px 6px rgba(0,0,0,0.12);
-          cursor: pointer;
-        }
-
-        .book-title {
-          font-size: 16px;
-          font-weight: bold;
-          color: #2c3e50;
-        }
-
-        .book-user {
-          font-size: 14px;
-          color: #7d6e56;
-        }
-
-        .book-due-date {
-          font-size: 12px;
-          color: #7d6e56;
-          margin-top: 4px;
-        }
-
-        .customer-item {
-          background-color: #fff;
-          padding: 16px;
-          margin-bottom: 12px;
-          border-radius: 8px;
-          box-shadow: 0 2px 6px rgba(0,0,0,0.12);
-        }
-
-        .customer-name {
-          font-size: 16px;
-          font-weight: bold;
-          color: #2c3e50;
-        }
-
-        .customer-email {
-          font-size: 14px;
-          color: #7d6e56;
-        }
-
-        .stats-container {
-          display: flex;
-          background-color: #fff;
-          padding: 16px;
-          border-radius: 8px;
-          margin-bottom: 16px;
-          box-shadow: 0 2px 4px rgba(0,0,0,0.08);
-        }
-
-        .stat-item {
-          flex: 1;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-        }
-
-        .stat-value {
-          font-size: 22px;
-          font-weight: bold;
-          color: #2c3e50;
-        }
-
-        .stat-label {
-          font-size: 13px;
-          color: #7d6e56;
-          margin-top: 4px;
-        }
-
-        .popular-book-item {
-          background-color: #fff;
-          padding: 16px;
-          margin-bottom: 12px;
-          border-radius: 8px;
-          box-shadow: 0 2px 6px rgba(0,0,0,0.12);
-        }
-
-        .popular-book-title {
-          font-size: 16px;
-          font-weight: bold;
-          color: #2c3e50;
-        }
-
-        .popular-book-count {
-          font-size: 14px;
-          color: #7d6e56;
-        }
-
-        .return-item {
-          background-color: transparent;
-        }
-
-        .return-title {
-          font-size: 16px;
-          font-weight: bold;
-          color: #2c3e50;
-        }
-
-        .return-user {
-          font-size: 14px;
-          color: #7d6e56;
-        }
-
-        @media (min-width: 768px) {
-          .menu {
-            width: 320px;
-            left: -320px;
-          }
-
-          .book-item:hover, .customer-item:hover, .popular-book-item:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-            transition: all 0.3s ease;
-          }
-        }
-      `}</style>
     </div>
   );
 };

@@ -1,74 +1,114 @@
-// src/screens/BookDetails.jsx
 import React, { useState, useEffect } from 'react';
-import { bookApi } from '../services/apiServices';
 import { useParams, useNavigate } from 'react-router-dom';
+import { bookApi } from '../services/apiServices';
 
 const BookDetails = () => {
-  const { bookId } = useParams();
-  const navigate = useNavigate();
   const [bookDetails, setBookDetails] = useState(null);
   const [loading, setLoading] = useState(true);
+  const { bookId } = useParams();
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchDetails = async () => {
-      try {
-        const resp = await bookApi.getBookDetails(bookId);
-        setBookDetails(resp.data);
-      } catch (err) {
-        alert(err.response?.data?.detail || 'Nie udało się pobrać szczegółów');
-        navigate(-1);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchDetails();
-  }, [bookId, navigate]);
+    fetchBookDetails();
+  }, [bookId]);
 
-  const formatDate = (d) =>
-    new Date(d).toLocaleDateString(undefined, {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-    });
-
-  const getCoverUrl = (isbn) =>
-    isbn
-      ? `https://covers.openlibrary.org/b/isbn/${isbn}-M.jpg`
-      : 'https://via.placeholder.com/150x220?text=No+Cover';
-
-  const borrowBook = async () => {
-    if (!bookDetails) return;
-    setLoading(true);
+  const fetchBookDetails = async () => {
     try {
-      await bookApi.borrowBook(bookId);
-      alert(`Wypożyczono: "${bookDetails.book.title}"`);
-      const resp = await bookApi.getBookDetails(bookId);
-      setBookDetails(resp.data);
-    } catch (err) {
-      alert(err.response?.data?.detail || 'Błąd wypożyczenia');
+      setLoading(true);
+      const response = await bookApi.getBookDetails(bookId);
+      setBookDetails(response.data);
+    } catch (error) {
+      alert(
+        error.response?.data?.detail || 'Failed to fetch book details'
+      );
+      navigate(-1);
     } finally {
       setLoading(false);
     }
   };
 
+  const getCoverUrl = (book) =>
+    book?.isbn
+      ? `https://covers.openlibrary.org/b/isbn/${book.isbn}-M.jpg`
+      : 'https://via.placeholder.com/150x220?text=No+Cover';
+
+  const borrowBook = async () => {
+    try {
+      // Show loading indicator
+      setLoading(true);
+      
+      // Call the appropriate API method
+      await bookApi.borrowBook(bookId);
+      
+      // Show success notification
+      alert(`You've borrowed "${bookDetails.book.title}"`);
+      
+      // Refresh book data to show updated number of available copies
+      fetchBookDetails();
+      
+    } catch (error) {
+      // Handle errors
+      alert(
+        error.response?.data?.detail || 'Failed to borrow the book'
+      );
+    } finally {
+      // End loading
+      setLoading(false);
+    }
+  };
+
+  // Function to render star rating
+  const renderStarRating = (rating) => {
+    const stars = [];
+    for (let i = 1; i <= 5; i++) {
+      stars.push(
+        <span 
+          key={i} 
+          className={i <= rating ? "text-yellow-500" : "text-gray-300"}
+        >
+          ★
+        </span>
+      );
+    }
+    return <div className="flex">{stars}</div>;
+  };
+
+  // Function to format date
+  const formatDate = (dateString) => {
+    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+    return new Date(dateString).toLocaleDateString(undefined, options);
+  };
+
   if (loading) {
     return (
-      <div className="flex items-center justify-center h-screen">
-        <span>Ładowanie…</span>
+      <div className="flex h-screen items-center justify-center bg-slate-800">
+        <div className="bg-white p-4 rounded-lg">
+          <div className="flex items-center mb-4">
+            <button onClick={() => navigate(-1)} className="mr-4 text-3xl font-bold">
+              ←
+            </button>
+            <h1 className="text-2xl font-bold">Szczegóły książki</h1>
+          </div>
+          <div className="flex justify-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-800"></div>
+          </div>
+        </div>
       </div>
     );
   }
 
   if (!bookDetails) {
     return (
-      <div className="p-4 text-center">
-        <p>Nie znaleziono książki.</p>
-        <button
-          onClick={() => navigate(-1)}
-          className="mt-4 px-4 py-2 bg-blue-600 text-white rounded"
-        >
-          Wróć
-        </button>
+      <div className="flex h-screen flex-col items-center justify-center bg-slate-800">
+        <div className="bg-white p-8 rounded-lg max-w-md w-full">
+          <div className="flex items-center mb-6">
+            <button onClick={() => navigate(-1)} className="mr-4 text-3xl font-bold">
+              ←
+            </button>
+            <h1 className="text-2xl font-bold">Szczegóły książki</h1>
+          </div>
+          <p className="text-red-700 text-lg italic text-center">Książka nieznaleziona</p>
+        </div>
       </div>
     );
   }
@@ -76,112 +116,131 @@ const BookDetails = () => {
   const { book, opinions, available_copies, can_add_notifications } = bookDetails;
 
   return (
-    <div className="min-h-screen bg-gray-100 p-4">
-      {/* Header */}
-      <div className="flex items-center mb-6">
-        <button onClick={() => navigate(-1)} className="mr-4 text-2xl">
-          ←
-        </button>
-        <h1 className="text-2xl font-bold">Szczegóły książki</h1>
-      </div>
+    <div className="min-h-screen bg-slate-800">
+      <div className="container mx-auto p-4">
+        {/* Header with Back Button */}
+        <div className="flex items-center bg-slate-800 py-4 text-paper">
+          <button onClick={() => navigate(-1)} className="mr-4 text-3xl font-bold text-paper">
+            ←
+          </button>
+          <h1 className="text-2xl font-bold font-serif text-paper">Szczegóły książki</h1>
+        </div>
 
-      {/* Karta książki */}
-      <div className="bg-white rounded-lg shadow p-6 mb-6">
-        <div className="flex flex-col md:flex-row gap-6">
-          <img
-            src={getCoverUrl(book.isbn)}
-            alt="Okładka"
-            className="w-40 h-56 object-cover rounded"
-          />
-          <div className="flex-1">
-            <h2 className="text-xl font-bold mb-2">{book.title}</h2>
-            <p className="italic text-gray-600 mb-4">by {book.author}</p>
+        <div className="overflow-auto">
+          {/* Book Information Card */}
+          <div className="bg-white m-4 rounded-xl p-5 shadow-lg border-l-4 border-l-slate-800">
+            <div className="flex justify-center mb-5">
+              <div className="w-36 h-52 bg-amber-50 rounded-lg flex justify-center items-center border border-amber-200 shadow-md">
+                <img
+                  src={getCoverUrl(book)}
+                  alt={book.title}
+                  className="w-full h-full object-cover rounded-lg"
+                />
+              </div>
+            </div>
 
-            <div className="flex flex-wrap gap-2 mb-4">
-              <span className="px-3 py-1 bg-gray-200 rounded-full text-sm">
-                {book.category}
+            <h2 className="text-2xl font-bold text-slate-800 text-center mb-2 font-serif">{book.title}</h2>
+            <p className="text-lg text-amber-800 text-center mb-5 italic font-serif"> {book.author}</p>
+            
+            <div className="flex justify-around mb-5 px-2">
+              <span className="bg-amber-50 px-4 py-2 rounded-2xl border border-amber-200 min-w-24 text-center">
+                <span className="text-sm font-semibold text-amber-800">{book.category}</span>
               </span>
-              <span
-                className={`px-3 py-1 rounded-full text-sm text-white ${
-                  available_copies > 0 ? 'bg-green-600' : 'bg-red-600'
-                }`}
-              >
-                {available_copies > 0
-                  ? `${available_copies} / ${book.total_copies} dostępnych`
-                  : 'Brak dostępnych'}
+              
+              <span className={`px-4 py-2 rounded-2xl min-w-28 text-center ${
+                available_copies > 0 ? 'bg-green-600' : 'bg-red-600'
+              }`}>
+                <span className="text-sm font-bold text-white">
+                  {available_copies > 0 
+                    ? `${available_copies} z ${book.total_copies} ${
+                        available_copies === 1 
+                          ? 'Dostępna' 
+                          : available_copies >= 2 && available_copies <= 4 
+                          ? 'Dostępne' 
+                          : 'Dostępnych'
+                      }`
+                    : 'Niedostępna'}
+                </span>
               </span>
             </div>
 
-            <div className="mb-4">
-              <h3 className="font-semibold mb-1">Opis</h3>
-              <p className="text-gray-700">{book.description}</p>
+            <div className="mb-6">
+              <h3 className="text-xl font-bold text-slate-800 mb-3 mt-5 font-serif border-b border-amber-100 pb-2">Opis</h3>
+              <p className="text-base text-gray-700 leading-relaxed mb-4">{book.description}</p>
+              
+              <h3 className="text-xl font-bold text-slate-800 mb-3 mt-5 font-serif border-b border-amber-100 pb-2">Szczegóły publikacji</h3>
+              <div className="flex border-b border-amber-100 py-2 mb-3">
+                <span className="w-24 text-amber-800 font-semibold">Data wydania:</span>
+                <span className="flex-1 text-gray-700">{formatDate(book.published_date)}</span>
+              </div>
+              <div className="flex border-b border-amber-100 py-2 mb-3">
+                <span className="w-24 text-amber-800 font-semibold">ISBN:</span>
+                <span className="flex-1 text-gray-700">{book.isbn}</span>
+              </div>
             </div>
 
-            <div className="mb-4">
-              <h3 className="font-semibold mb-1">Szczegóły publikacji</h3>
-              <p>
-                <strong>Data wydania:</strong> {formatDate(book.published_date)}
-              </p>
-              <p>
-                <strong>ISBN:</strong> {book.isbn}
-              </p>
-            </div>
-
+            {/* Notification button - commented out as in the React Native version */}
+            {/*
             {can_add_notifications && (
-              <button
-                onClick={() => alert('Powiadomienie ustawione')}
-                className="mb-3 px-4 py-2 bg-yellow-500 text-white rounded"
+              <button 
+                className="w-full bg-yellow-600 py-3 rounded-3xl mb-4 shadow-lg"
+                onClick={() => alert('Powiadomienie', 'Zostaniesz powiadomiony, gdy książka będzie dostępna')}
               >
-                Powiadom mnie, gdy dostępna
+                <span className="text-white font-bold text-center">
+                  Powiadom mnie, gdy będzie dostępna
+                </span>
               </button>
             )}
+            */}
 
-            <button
-              onClick={borrowBook}
-              disabled={available_copies === 0}
-              className={`px-4 py-2 rounded text-white ${
-                available_copies > 0
-                  ? 'bg-blue-600 hover:bg-blue-700'
-                  : 'bg-gray-400 cursor-not-allowed'
+            {/* Borrow Book Button - commented out as in React Native version */}
+            {/*
+            <button 
+              className={`w-full py-3 rounded-3xl shadow-lg ${
+                available_copies === 0 ? 'bg-gray-400' : 'bg-slate-800'
               }`}
+              disabled={available_copies === 0}
+              onClick={borrowBook}
             >
-              {available_copies > 0 ? 'Wypożycz książkę' : 'Niedostępna'}
+              <span className="text-white font-bold text-center">
+                {available_copies > 0 ? 'Wypożycz książkę' : 'Aktualnie niedostępna'}
+              </span>
+            </button>
+            */}
+            
+            {/* Edit Book Button - as in the React Native version */}
+            <button 
+              className="w-full bg-slate-800 py-3 rounded-3xl shadow-lg"
+              onClick={() => navigate(`/edit-book/${bookId}`)}
+            >
+              <span className="text-white font-bold text-center">Edytuj książkę</span>
             </button>
           </div>
-        </div>
-      </div>
+          
 
-      {/* Opinie */}
-      <div className="bg-white rounded-lg shadow p-6">
-        <h3 className="text-lg font-semibold mb-4">
-          Opinie ({opinions.length})
-        </h3>
-        {opinions.length > 0 ? (
-          <div className="space-y-4">
-            {opinions.map((op) => (
-              <div key={op.id} className="border-b pb-4">
-                <div className="flex justify-between items-center mb-2">
-                  <div>
-                    {Array.from({ length: 5 }).map((_, i) => (
-                      <span
-                        key={i}
-                        className={i < op.rate ? 'text-yellow-500' : 'text-gray-300'}
-                      >
-                        ★
-                      </span>
-                    ))}
+          {/* Reviews Section */}
+          <div className="bg-white m-4 rounded-xl p-5 shadow-lg mb-6 border-l-4 border-l-yellow-600">
+            <h3 className="text-xl font-bold text-slate-800 mb-3 mt-5 font-serif border-b border-amber-100 pb-2">
+              Opinie ({opinions.length})
+            </h3>
+            
+            {opinions.length > 0 ? (
+              <div className="space-y-4">
+                {opinions.map((item, index) => (
+                  <div key={`opinion-${item.id || index}`} className="border-b border-amber-100 py-4">
+                    <div className="flex justify-between items-center mb-2">
+                      {renderStarRating(item.rate)}
+                      <span className="text-sm italic text-amber-800">{formatDate(item.created_at)}</span>
+                    </div>
+                    <p className="text-base text-gray-700 leading-relaxed">{item.comment}</p>
                   </div>
-                  <span className="text-sm text-gray-500">
-                    {formatDate(op.created_at)}
-                  </span>
-                </div>
-                <p className="text-gray-700">{op.comment}</p>
+                ))}
               </div>
-            ))}
+            ) : (
+              <p className="text-base italic text-amber-800 text-center py-5 font-serif">Brak opinii</p>
+            )}
           </div>
-        ) : (
-          <p className="italic text-gray-600">Brak opinii</p>
-        )}
+        </div>
       </div>
     </div>
   );

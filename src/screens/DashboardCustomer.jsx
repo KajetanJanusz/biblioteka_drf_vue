@@ -221,7 +221,89 @@ const DashboardCustomer = () => {
           )}
         </section>
 
-        {/* Dalej możesz analogicznie dodać: historia wypożyczeń, powiadomienia, rekomendacje i oceny */}
+                {/* Historia wypożyczeń */}
+                <section className="bg-white p-6 mb-4 shadow">
+          <h3 className="text-lg mb-2">📘 Historia wypożyczania</h3>
+          {data.rented_books_old && data.rented_books_old.length > 0 ? (
+            data.rented_books_old.map((item, index) => (
+              <div 
+                key={item.id ? item.id.toString() : `history-${index}`} 
+                className="p-4 mb-3 border-b"
+              >
+                <div className="font-bold">{item.book_title}</div>
+                <div className="text-sm text-gray-600">by {item.book_author}</div>
+                <div className="text-xs text-gray-600 mt-1">
+                  Zwrócone: {formatDate(item.return_date)}
+                </div>
+              </div>
+            ))
+          ) : (
+            <div className="italic">Brak historii wypożyczania</div>
+          )}
+        </section>
+
+        {/* Powiadomienia */}
+        <section className="bg-white p-6 mb-4 shadow">
+          <h3 className="text-lg mb-2">🔔 Powiadomienia</h3>
+          {data.notifications && data.notifications.length > 0 ? (
+            data.notifications.map((item, index) => (
+              <div 
+                key={item.id ? item.id.toString() : `notification-${index}`} 
+                className="p-4 mb-3 border-b"
+              >
+                <div className="text-sm">{item.message}</div>
+                <div className="text-xs text-gray-600 mt-1">
+                  {formatDate(item.created_at?.split('T')[0])}
+                </div>
+              </div>
+            ))
+          ) : (
+            <div className="italic">Brak powiadomień</div>
+          )}
+        </section>
+
+        {/* Rekomendacje */}
+        <section className="bg-white p-6 mb-4 shadow">
+          <h3 className="text-lg mb-2">📚 Polecane</h3>
+          {data.ai_recommendations && data.ai_recommendations.length > 0 ? (
+            data.ai_recommendations.map((item, index) => (
+              <div 
+                key={`recommendation-${index}`} 
+                className="p-4 mb-3 border-b"
+              >
+                <div className="text-sm">{item}</div>
+              </div>
+            ))
+          ) : (
+            <div className="italic">Brak polecanych</div>
+          )}
+        </section>
+
+        {/* Oceny */}
+        <section className="bg-white p-6 mb-4 shadow">
+          <h3 className="text-lg mb-2">⭐ Moje oceny książek</h3>
+          {data.opinions && data.opinions.length > 0 ? (
+            data.opinions.map((item, index) => (
+              <div 
+                key={item.id ? item.id.toString() : `review-${index}`} 
+                className="p-4 mb-3 border-b"
+              >
+                <div className="flex justify-between">
+                  <div className="font-bold">{item.book_title}</div>
+                  <div>
+                    {Array(item.rate).fill('⭐').join('')}
+                  </div>
+                </div>
+                <div className="text-sm italic mt-2">"{item.comment}"</div>
+                <div className="text-xs text-gray-600 mt-1">
+                  {formatDate(item.created_at)}
+                </div>
+              </div>
+            ))
+          ) : (
+            <div className="italic">Brak ocen</div>
+          )}
+        </section>
       </main>
     </div>
   );

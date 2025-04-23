@@ -1,4 +1,3 @@
-// src/screens/LogoutScreen.jsx
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -6,8 +5,15 @@ const LogoutScreen = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Simulate logging out by resetting the state and navigating to the login page
-    navigate('/login', { state: { message: 'Wylogowano' } });
+    // Remove authentication tokens from local storage
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('refreshToken');
+    
+    // You might also want to remove any other user-related data
+    localStorage.removeItem('userData');
+    
+    // Navigate to login page with a logout message
+    navigate('/', { state: { message: 'Wylogowano pomyślnie' } });
   }, [navigate]);
 
   return (
