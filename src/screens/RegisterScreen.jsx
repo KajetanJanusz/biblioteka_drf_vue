@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { register } from '../services/authService';
+import '../styles/RegisterScreen.css';
+import { BookOpen } from 'lucide-react';
 
 const RegisterScreen = () => {
   const [username, setUsername] = useState('');
@@ -39,6 +41,9 @@ const RegisterScreen = () => {
     <div className="min-h-screen bg-[#2c3e50] flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full bg-[#f9f7f1] p-8 rounded-lg shadow-lg">
         <div className="text-center">
+              <div className="logo">
+                <BookOpen size={40} strokeWidth={2.5} className="logo-icon text-blue-600" />
+              </div>
           <h1 className="text-2xl font-bold font-serif text-[#2c3e50] mb-2">Rejestracja</h1>
           <p className="text-gray-600 mb-8">Utwórz nowe konto</p>
         </div>

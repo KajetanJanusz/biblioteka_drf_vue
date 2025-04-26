@@ -1,0 +1,536 @@
+/* BookDetails.css - Styling for the BookDetails component */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  
+  body, html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    overflow-x: hidden;
+    font-family: 'Inter', sans-serif;
+  }
+  
+  .min-h-screen {
+    min-height: 100vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    background: linear-gradient(180deg, #f9fbff 0%, #f3f6fc 100%);
+  }
+
+/* Base container */
+.min-h-screen.bg-gray-100.p-4 {
+    min-height: 100vh;
+    background: linear-gradient(180deg, #f9fbff 0%, #f3f6fc 100%);
+    padding: 0; /* Remove padding from the main container */
+    width: 100%; /* Ensure full width */
+    margin: 0; /* Remove margins */
+    overflow-x: hidden; /* Prevent horizontal scroll */
+  }
+  
+  /* Header with back button */
+  .flex.items-center.mb-6 {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1.5rem;
+  }
+
+/* Header styling */
+header {
+    background: linear-gradient(90deg, #007bff 0%, #0063cc 100%) !important;
+    box-shadow: 0 4px 15px rgba(0, 123, 255, 0.1);
+    padding: 1rem 1.5rem !important;
+    display: flex;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 40;
+    width: 100vw; /* Using viewport width instead of 100% */
+    margin: 0; /* Remove any margins */
+    left: 0; /* Ensure alignment from the left edge */
+    right: 0; /* Ensure alignment to the right edge */
+  }
+  
+  header h1 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-left: 1.25rem;
+    color: white !important;
+    letter-spacing: -0.02em;
+  }
+  
+  /* Menu button with animation */
+  header button {
+    position: relative;
+    width: 2rem;
+    height: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+  }
+  
+  header button:focus {
+    outline: none;
+  }
+  
+  header button span {
+    display: block;
+    width: 1.5rem;
+    height: 2px;
+    background-color: white;
+    margin: 2px 0;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    border-radius: 2px;
+  }
+  
+  .flex.items-center.mb-6 button {
+    margin-right: 1rem;
+    font-size: 1.5rem;
+    background: transparent;
+    border: none;
+    width: 2.5rem;
+    height: 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    color: #333;
+  }
+  
+  .flex.items-center.mb-6 button:hover {
+    background: rgba(0, 123, 255, 0.1);
+    transform: translateX(-3px);
+  }
+  
+  .flex.items-center.mb-6 h1 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #222;
+    letter-spacing: -0.02em;
+  }
+  
+  /* Book card */
+  .bg-white.rounded-lg.shadow.p-6.mb-6 {
+    background: white;
+    border-radius: 1rem;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+    padding: 1.75rem;
+    margin-bottom: 1.75rem;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(0, 0, 0, 0.03);
+    animation: fadeIn 0.5s ease-out;
+  }
+  
+  .bg-white.rounded-lg.shadow.p-6.mb-6:hover {
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.07);
+    transform: translateY(-3px);
+  }
+  
+  /* Book content layout */
+  .flex.flex-col.md\:flex-row {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  @media (min-width: 768px) {
+    .flex.flex-col.md\:flex-row {
+      flex-direction: row;
+    }
+  }
+  
+  /* Book cover image */
+  .w-40.h-56.object-cover.rounded.mb-4.md\:mb-0.md\:mr-6 {
+    width: 10rem;
+    height: 14rem;
+    object-fit: cover;
+    border-radius: 0.5rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+  }
+  
+  .w-40.h-56.object-cover.rounded.mb-4.md\:mb-0.md\:mr-6:hover {
+    transform: scale(1.03);
+  }
+  
+  @media (min-width: 768px) {
+    .w-40.h-56.object-cover.rounded.mb-4.md\:mb-0.md\:mr-6 {
+      margin-bottom: 0;
+      margin-right: 1.5rem;
+    }
+  }
+  
+  /* Book content */
+  .flex-1 {
+    flex: 1;
+  }
+  
+  /* Book title */
+  .text-xl.font-bold.mb-2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: #222;
+    letter-spacing: -0.01em;
+  }
+  
+  /* Book author */
+  .italic.text-gray-600.mb-4 {
+    font-style: italic;
+    color: #666;
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+  }
+  
+  /* Tags container */
+  .flex.flex-wrap.gap-2.mb-4 {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin-bottom: 1rem;
+  }
+  
+  /* Category tag */
+  .px-3.py-1.bg-gray-200.rounded-full.text-sm {
+    background: #f0f4f8;
+    color: #555;
+    border-radius: 9999px;
+    padding: 0.35rem 0.9rem;
+    font-size: 0.85rem;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    transition: all 0.2s ease;
+  }
+  
+  .px-3.py-1.bg-gray-200.rounded-full.text-sm:hover {
+    background: #e7ecf3;
+    transform: translateY(-2px);
+  }
+  
+  /* Availability badge */
+  .px-3.py-1.rounded-full.text-sm.text-white {
+    border-radius: 9999px;
+    padding: 0.35rem 0.9rem;
+    font-size: 0.85rem;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    transition: all 0.2s ease;
+    color: white;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .bg-green-600 {
+    background: linear-gradient(90deg, #28a745 0%, #218838 100%);
+  }
+  
+  .bg-red-600 {
+    background: linear-gradient(90deg, #dc3545 0%, #c82333 100%);
+  }
+  
+  /* Description section */
+  .mb-4 {
+    margin-bottom: 1rem;
+  }
+  
+  .font-semibold.mb-1 {
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+    color: #222;
+    font-size: 1.1rem;
+  }
+  
+  .text-gray-700 {
+    color: #555;
+    line-height: 1.6;
+    font-size: 0.95rem;
+  }
+  
+  /* Publication details */
+  .mb-4 p {
+    margin-bottom: 0.25rem;
+  }
+  
+  .mb-4 strong {
+    font-weight: 600;
+    color: #333;
+  }
+  
+  /* Notification button */
+  .mb-3.px-4.py-2.bg-yellow-500.text-white.rounded {
+    margin-bottom: 0.75rem;
+    padding: 0.5rem 1rem;
+    background: linear-gradient(90deg, #f5a623 0%, #e69819 100%);
+    color: white;
+    border-radius: 0.5rem;
+    border: none;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 5px rgba(245, 166, 35, 0.2);
+  }
+  
+  .mb-3.px-4.py-2.bg-yellow-500.text-white.rounded:hover {
+    background: linear-gradient(90deg, #e69819 0%, #d88c14 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(245, 166, 35, 0.3);
+  }
+  
+  /* Borrow book button */
+  .px-4.py-2.rounded.text-white {
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    border: none;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  
+  .bg-blue-600.hover\:bg-blue-700 {
+    background: linear-gradient(90deg, #007bff 0%, #0063cc 100%);
+    color: white;
+    box-shadow: 0 2px 5px rgba(0, 123, 255, 0.2);
+  }
+  
+  .bg-blue-600.hover\:bg-blue-700:hover {
+    background: linear-gradient(90deg, #0063cc 0%, #004f9e 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3);
+  }
+  
+  .bg-gray-400.cursor-not-allowed {
+    background: linear-gradient(90deg, #aaafb4 0%, #9098a0 100%);
+    cursor: not-allowed;
+    opacity: 0.7;
+  }
+  
+  /* Opinions section */
+  .bg-white.rounded-lg.shadow.p-6 {
+    background: white;
+    border-radius: 1rem;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+    padding: 1.75rem;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(0, 0, 0, 0.03);
+    animation: fadeIn 0.6s ease-out;
+  }
+  
+  .bg-white.rounded-lg.shadow.p-6:hover {
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.07);
+  }
+  
+  /* Opinions header */
+  .text-lg.font-semibold.mb-4 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: #222;
+    position: relative;
+    display: inline-block;
+  }
+  
+  .text-lg.font-semibold.mb-4::after {
+    content: "";
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 40px;
+    height: 3px;
+    background: #007bff;
+    border-radius: 3px;
+  }
+  
+  /* Empty opinions */
+  .italic.text-gray-600 {
+    font-style: italic;
+    color: #8896ac;
+    padding: 1rem 0;
+  }
+  
+  /* Opinions list */
+  .space-y-4 {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  /* Opinion item */
+  .border-b.pb-4 {
+    border-bottom: 1px solid #eaedf3;
+    padding-bottom: 1rem;
+    transition: background-color 0.2s ease;
+  }
+  
+  .border-b.pb-4:hover {
+    background-color: #fafbfd;
+  }
+  
+  .border-b.pb-4:last-child {
+    border-bottom: none;
+  }
+  
+  /* Opinion header */
+  .flex.justify-between.items-center.mb-2 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+  }
+  
+  /* Stars */
+  .text-yellow-500, .text-gray-300 {
+    font-size: 1.2rem;
+    letter-spacing: 0.1rem;
+  }
+  
+  .text-yellow-500 {
+    color: #f5a623;
+    text-shadow: 0 1px 3px rgba(245, 166, 35, 0.2);
+  }
+  
+  .text-gray-300 {
+    color: #d2d6dc;
+  }
+  
+  /* Opinion date */
+  .text-sm.text-gray-500 {
+    font-size: 0.85rem;
+    color: #8896ac;
+  }
+  
+  /* Loading state */
+  .flex.items-center.justify-center.h-screen {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: linear-gradient(180deg, #f9fbff 0%, #f3f6fc 100%);
+  }
+  
+  .flex.items-center.justify-center.h-screen span {
+    display: inline-block;
+    padding: 1rem 1.75rem;
+    background-color: white;
+    border-radius: 0.75rem;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    color: #555;
+    font-weight: 500;
+    animation: pulse 1.5s infinite;
+  }
+  
+  /* Not found state */
+  .p-4.text-center {
+    padding: 1rem;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: linear-gradient(180deg, #f9fbff 0%, #f3f6fc 100%);
+  }
+  
+  .p-4.text-center p {
+    font-size: 1.2rem;
+    color: #555;
+    margin-bottom: 1.5rem;
+  }
+  
+  .mt-4.px-4.py-2.bg-blue-600.text-white.rounded {
+    margin-top: 1rem;
+    padding: 0.5rem 1rem;
+    background: linear-gradient(90deg, #007bff 0%, #0063cc 100%);
+    color: white;
+    border-radius: 0.5rem;
+    border: none;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 5px rgba(0, 123, 255, 0.2);
+  }
+  
+  .mt-4.px-4.py-2.bg-blue-600.text-white.rounded:hover {
+    background: linear-gradient(90deg, #0063cc 0%, #004f9e 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3);
+  }
+  
+  /* Animations */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(15px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @keyframes pulse {
+    0% {
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    }
+    50% {
+      box-shadow: 0 8px 30px rgba(0, 123, 255, 0.15);
+    }
+    100% {
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    }
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .min-h-screen.bg-gray-100.p-4 {
+      padding: 1rem;
+    }
+    
+    .text-xl.font-bold.mb-2 {
+      font-size: 1.3rem;
+    }
+    
+    .italic.text-gray-600.mb-4 {
+      font-size: 1rem;
+    }
+    
+    .bg-white.rounded-lg.shadow.p-6.mb-6,
+    .bg-white.rounded-lg.shadow.p-6 {
+      padding: 1.25rem;
+    }
+  }
+  
+  /* For tablet */
+  @media (min-width: 769px) and (max-width: 1024px) {
+    .min-h-screen.bg-gray-100.p-4 {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 1.5rem;
+    }
+  }
+
+  /* Content padding - add padding only to the content area, not the header */
+main.p-4 {
+    padding: 1.5rem;
+  }
+  
+  /* Media queries to handle different screen sizes */
+  @media (max-width: 768px) {
+    header {
+      padding: 0.75rem 1rem !important;
+    }
+    
+    main.p-4 {
+      padding: 1rem;
+    }
+  }

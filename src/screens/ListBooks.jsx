@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { bookApi } from '../services/apiServices';
 import { useNavigate } from 'react-router-dom';
+import '../styles/ListBook.css'
 
 const categoryMap = {
   1: 'Fantastyka naukowa',

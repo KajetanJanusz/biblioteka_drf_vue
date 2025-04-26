@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { dashboardApi } from '../services/apiServices';
 import { useNavigate } from 'react-router-dom';
+import '../styles/DashboardCustomer.css'
 
 const DashboardCustomer = () => {
   const [data, setData] = useState(null);
@@ -64,53 +65,57 @@ const DashboardCustomer = () => {
           <span className="block w-6 h-0.5 bg-white mb-1" />
           <span className="block w-6 h-0.5 bg-white" />
         </button>
-        <h1 className="text-2xl font-bold">Profil czytelnika</h1>
+        <h1 className="text-2xl font-bold text-white">Profil czytelnika</h1>
       </header>
 
-      {/* SIDE MENU */}
-      <aside
-        className={
-          'fixed top-0 left-0 h-full w-64 bg-white shadow transform transition-transform ' +
-          (menuOpen ? 'translate-x-0' : '-translate-x-full')
-        }
+     {/* SIDE MENU */}
+{menuOpen && (
+  <div className="fixed inset-0 flex z-50">
+    {/* Tło przyciemnione */}
+    <div
+      className="flex-1 bg-black/50"
+      onClick={() => setMenuOpen(false)}
+    />
+
+    {/* Menu boczne */}
+    <nav className="w-64 bg-white p-6 shadow-lg border-l border-gray-200">
+      {/* Nagłówek */}
+      <div className="text-lg font-semibold text-white bg-blue-700 px-4 py-2 rounded-md mb-6 shadow-sm">
+        Menu
+      </div>
+
+      {/* Przyciski */}
+      <button
+        onClick={() => {
+          navigate('/dashboard-customer');
+          setMenuOpen(false);
+        }}
+        className="block w-full text-left px-4 py-2 mb-2 rounded-md text-gray-800 hover:bg-blue-50 hover:text-blue-700 transition"
       >
-        <div className="p-4 bg-blue-800 text-white">Menu</div>
-        <nav className="p-4 space-y-2">
-          <button
-            onClick={() => {
-              navigate('/dashboard-customer');
-              setMenuOpen(false);
-            }}
-            className="block w-full text-left"
-          >
-            Strona główna
-          </button>
-          <button
-            onClick={() => {
-              navigate('/books');
-              setMenuOpen(false);
-            }}
-            className="block w-full text-left"
-          >
-            Książki
-          </button>
-          <button
-            onClick={() => {
-              navigate('/logout');
-              setMenuOpen(false);
-            }}
-            className="block w-full text-left"
-          >
-            Wyloguj się
-          </button>
-        </nav>
-      </aside>
-      {menuOpen && (
-        <div
-          onClick={() => setMenuOpen(false)}
-          className="fixed inset-0 bg-black opacity-50"
-        />
-      )}
+        Strona główna
+      </button>
+      <button
+        onClick={() => {
+          navigate('/books');
+          setMenuOpen(false);
+        }}
+        className="block w-full text-left px-4 py-2 mb-2 rounded-md text-gray-800 hover:bg-blue-50 hover:text-blue-700 transition"
+      >
+        Książki
+      </button>
+      <button
+        onClick={() => {
+          navigate('/logout');
+          setMenuOpen(false);
+        }}
+        className="block w-full text-left px-4 py-2 rounded-md text-gray-800 hover:bg-red-50 hover:text-red-600 transition"
+      >
+        Wyloguj się
+      </button>
+    </nav>
+  </div>
+)}
+
 
       {/* MAIN CONTENT */}
       <main className="p-4">
