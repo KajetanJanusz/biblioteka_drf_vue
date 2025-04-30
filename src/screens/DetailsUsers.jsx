@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { userApi } from '../services/apiServices';
 import { useParams, useNavigate } from 'react-router-dom';
+import '../styles/DetailsUsers.css'
 
 const DetailUsers = () => {
   const { userId } = useParams();

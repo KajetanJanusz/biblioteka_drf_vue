@@ -2,13 +2,11 @@
 import React, { useState, useEffect } from 'react';
 import { bookApi } from '../services/apiServices';
 import { useParams, useNavigate } from 'react-router-dom';
-import { useNotification } from './NotificationContext';
-import '../styles/BookDetails.css';
+import '../styles/BookDetails.css'
 
 const BookDetails = () => {
   const { bookId } = useParams();
   const navigate = useNavigate();
-  const { showNotification } = useNotification();
   const [bookDetails, setBookDetails] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -18,42 +16,30 @@ const BookDetails = () => {
         const resp = await bookApi.getBookDetails(bookId);
         setBookDetails(resp.data);
       } catch (err) {
-        showNotification(
-          err.response?.data?.detail || 'Nie udało się pobrać szczegółów książki', 
-          'error'
-        );
+        alert(err.response?.data?.detail || 'Nie udało się pobrać szczegółów');
         navigate(-1);
       } finally {
         setLoading(false);
       }
     };
     fetchDetails();
-  }, [bookId, navigate, showNotification]);
+  }, [bookId, navigate]);
 
   const borrowBook = async () => {
     if (!bookDetails) return;
     setLoading(true);
     try {
       await bookApi.borrowBook(bookId);
-      showNotification(`Wypożyczono książkę "${bookDetails.book.title}"`, 'success');
+      alert(`Wypożyczono książkę "${bookDetails.book.title}"`);
       const resp = await bookApi.getBookDetails(bookId);
       setBookDetails(resp.data);
     } catch (err) {
-      showNotification(
-        err.response?.data?.detail || 'Błąd wypożyczenia książki', 
-        'error'
-      );
+      alert(err.response?.data?.detail || 'Błąd wypożyczenia');
     } finally {
       setLoading(false);
     }
   };
 
-  const setupNotification = () => {
-    // Tutaj dodaj logikę do ustawienia powiadomienia dla książki
-    showNotification('Powiadomienie zostało ustawione', 'info');
-  };
-
-  // Reszta komponentu pozostaje bez zmian...
   const formatDate = (d) =>
     new Date(d).toLocaleDateString(undefined, {
       year: 'numeric',
@@ -99,15 +85,15 @@ const BookDetails = () => {
     <div className="min-h-screen bg-gray-100 p-4">
       {/* Header */}
       <header className="bg-blue-800 text-white flex items-center p-4">
-        <div className="flex items-center mb-6">
-          <button
-            onClick={() => navigate(-1)}
-            className="mr-4 text-2xl"
-          >
-            ←
-          </button>
-          <h1 className="text-2xl font-bold">Powrót</h1>
-        </div>
+      <div className="flex items-center mb-6">
+        <button
+          onClick={() => navigate(-1)}
+          className="mr-4 text-2xl"
+        >
+          ←
+        </button>
+        <h1 className="text-2xl font-bold">Powrót</h1>
+      </div>
       </header>
 
       {/* Book Card */}
@@ -154,7 +140,7 @@ const BookDetails = () => {
 
             {can_add_notifications && (
               <button
-                onClick={setupNotification}
+                onClick={() => alert('Powiadomienie ustawione')}
                 className="mb-3 px-4 py-2 bg-yellow-500 text-white rounded"
               >
                 Powiadom mnie, gdy dostępna

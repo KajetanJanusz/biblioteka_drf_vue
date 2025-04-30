@@ -92,7 +92,7 @@ header button span {
   border-left: 1px solid #e5e7eb;
 }
 
-@keyframes slideIn {
+@keyframes slideInFromRight {
   from {
     transform: translateX(100%);
     opacity: 0;

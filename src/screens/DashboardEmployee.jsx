@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { dashboardApi } from '../services/apiServices';
 import { useNavigate } from 'react-router-dom';
+import '../styles/DashboardEmployee.css'
 
 const DashboardEmployee = () => {
   const [data, setData] = useState(null);

@@ -1,0 +1,238 @@
+/* Main container styling */
+.min-h-screen {
+    min-height: 100vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    background: linear-gradient(180deg, #f9fbff 0%, #f3f6fc 100%);
+  }
+  
+  /* Header styling */
+  header {
+    background: linear-gradient(90deg, #007bff 0%, #0063cc 100%) !important;
+    box-shadow: 0 4px 15px rgba(0, 123, 255, 0.1);
+    padding: 1rem 1.5rem !important;
+    display: flex;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 40;
+    width: 100vw;
+    margin: 0;
+    left: 0;
+    right: 0;
+    color: #ffffff;
+  }
+  
+  .header-title,
+  header h1 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-left: 1.25rem;
+    color: white !important;
+    letter-spacing: -0.02em;
+  }
+  
+  /* Layout utilities */
+  .flex {
+    display: flex;
+  }
+  
+  .items-center {
+    align-items: center;
+  }
+  
+  .justify-center {
+    justify-content: center;
+  }
+  
+  .flex-1 {
+    flex: 1 1 0%;
+  }
+  
+  /* Spacing utilities */
+  .p-4 {
+    padding: 1rem;
+  }
+  
+  .mb-6 {
+    margin-bottom: 1.5rem;
+  }
+  
+  .mr-4 {
+    margin-right: 1rem;
+  }
+  
+  .mt-4 {
+    margin-top: 1rem;
+  }
+  
+  .mx-auto {
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .py-2 {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+  }
+  
+  .space-y-4 > * + * {
+    margin-top: 1rem;
+  }
+  
+  .space-x-4 > * + * {
+    margin-left: 1rem;
+  }
+  
+  /* Typography */
+  .text-2xl {
+    font-size: 1.5rem;
+    line-height: 2rem;
+    color: #f8fafc;
+  }
+  
+  .font-bold {
+    font-weight: 700;
+  }
+  
+  .text-white {
+    color: #ffffff;
+  }
+  
+  /* Background colors */
+  .bg-gray-100 {
+    background-color: #1e293b; /* Slate-800 */
+  }
+  
+  .bg-white {
+    background-color: #ffffff;
+  }
+  
+  .bg-blue-600 {
+    background-color: #1e293b; /* Slate-800 for main buttons */
+  }
+  
+  .bg-red-600 {
+    background-color: #b91c1c; /* Red-700 for delete button */
+  }
+  
+  .bg-yellow-500 {
+    background-color: #ca8a04; /* Yellow-600 for notification buttons */
+  }
+  
+  /* Hover states */
+  .hover\:bg-blue-700:hover {
+    background-color: #0f172a; /* Slate-900 for hover */
+  }
+  
+  .hover\:bg-red-700:hover {
+    background-color: #991b1b; /* Red-800 for hover */
+  }
+  
+  .hover\:bg-yellow-600:hover {
+    background-color: #a16207; /* Yellow-700 for hover */
+  }
+  
+  /* Form container styling */
+  .rounded-lg {
+    border-radius: 0.5rem;
+  }
+  
+  .rounded {
+    border-radius: 0.25rem;
+  }
+  
+  .shadow {
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  }
+  
+  .max-w-xl {
+    max-width: 36rem;
+  }
+  
+  /* Form inputs styling */
+  input[type="text"],
+  input[type="date"],
+  input[type="number"],
+  input[type="email"],
+  input[type="password"],
+  input[type="tel"],
+  select,
+  textarea {
+    width: 100%;
+    border: 1px solid #d1d5db;
+    border-radius: 0.25rem;
+    padding: 0.5rem 0.75rem;
+    font-size: 1rem;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  }
+  
+  input[type="text"]:focus,
+  input[type="date"]:focus,
+  input[type="number"]:focus,
+  input[type="email"]:focus,
+  input[type="password"]:focus,
+  input[type="tel"]:focus,
+  select:focus,
+  textarea:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25);
+  }
+  
+  textarea {
+    min-height: 6rem;
+    resize: vertical;
+  }
+  
+  /* Checkbox styling */
+  input[type="checkbox"] {
+    margin-right: 0.5rem;
+  }
+  
+  /* Button styling */
+  button {
+    cursor: pointer;
+    transition: background-color 0.15s ease-in-out;
+  }
+  
+  /* User form styling */
+  .add-user-form {
+    margin-top: 2rem;
+  }
+  
+  .add-user-form .form-group {
+    margin-bottom: 0.05rem;
+  }
+  
+  .add-user-form input[type="text"],
+  .add-user-form input[type="email"],
+  .add-user-form input[type="password"],
+  .add-user-form input[type="tel"],
+  .add-user-form select {
+    padding: 0.75rem 1rem;
+    border-radius: 0.5rem;
+  }
+  
+  .add-user-form input:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25);
+  }
+  
+  /* Loading state */
+  .h-screen {
+    height: 100vh;
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 640px) {
+    .flex.space-x-4 {
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+    
+    .flex.space-x-4 > * + * {
+      margin-left: 0;
+    }
+  }

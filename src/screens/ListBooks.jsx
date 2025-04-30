@@ -145,8 +145,13 @@ const BookList = () => {
                       available ? 'bg-green-600' : 'bg-red-600'
                     }`}>
                       {available
-                        ? `${book.available_copies} ${book.available_copies===1?'dostępna':'dostępnych'}`
-                        : 'niedostępna'}
+                        ? `${book.available_copies} ${book.available_copies===1
+                          ? 'Dostępna'
+                          : book.available_copies <= 4
+                          ? 'Dostępne'
+                          : 'Dostępnych'
+                      }`
+                    : 'Niedostępna'}
                     </div>
                   </div>
                 );

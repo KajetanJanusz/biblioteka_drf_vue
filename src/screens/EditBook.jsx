@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { bookApi } from '../services/apiServices';
 import { useParams, useNavigate } from 'react-router-dom';
+import '../styles/EditBook.css'
 
 const EditBook = () => {
   const { bookId } = useParams();
@@ -92,12 +93,14 @@ const EditBook = () => {
   return (
     <div className="min-h-screen bg-gray-100 p-4">
       {/* Nagłówek */}
-      <div className="flex items-center mb-6">
+      <header className="bg-blue-800 text-white flex items-center p-4">
+
         <button onClick={() => navigate(-1)} className="mr-4 text-2xl">
           ←
         </button>
-        <h1 className="text-2xl font-bold">Edytuj książkę</h1>
-      </div>
+        <h1 className="header-title">Edytuj książkę</h1>
+
+      </header>
 
       {/* Formularz */}
       <div className="bg-white rounded-lg shadow p-6 max-w-xl mx-auto space-y-4">

@@ -1,0 +1,212 @@
+/* Main container styling */
+.min-h-screen {
+    min-height: 100vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    background: linear-gradient(180deg, #f9fbff 0%, #f3f6fc 100%);
+  }
+
+  header {
+    background: linear-gradient(90deg, #007bff 0%, #0063cc 100%) !important;
+    box-shadow: 0 4px 15px rgba(0, 123, 255, 0.1);
+    padding: 1rem 1.5rem !important;
+    display: flex;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 40;
+    width: 100vw; /* Using viewport width instead of 100% */
+    margin: 0; /* Remove any margins */
+    left: 0; /* Ensure alignment from the left edge */
+    right: 0; /* Ensure alignment to the right edge */
+  }
+  .header-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-left: 1.25rem;
+    color: white;
+    letter-spacing: -0.02em;
+  }
+  
+  header h1 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-left: 1.25rem;
+    color: white !important;
+    letter-spacing: -0.02em;
+  }
+  
+  .bg-gray-100 {
+    background-color: #1e293b; /* Slate-800 dla tła strony */
+  }
+  
+  .p-4 {
+    padding: 1rem;
+  }
+  
+  /* Header styling */
+  .flex {
+    display: flex;
+  }
+  
+  .items-center {
+    align-items: center;
+  }
+  
+  .justify-center {
+    justify-content: center;
+  }
+  
+  .mb-6 {
+    margin-bottom: 1.5rem;
+  }
+  
+  .mr-4 {
+    margin-right: 1rem;
+  }
+  
+  .text-2xl {
+    font-size: 1.5rem;
+    line-height: 2rem;
+    color: #f8fafc; /* Text-paper/slate-50 dla tekstu na ciemnym tle */
+  }
+  
+  .font-bold {
+    font-weight: 700;
+  }
+  
+  header {
+    background-color: #1e40af; /* Blue-800 dla nagłówka */
+    color: #ffffff;
+    padding: 1rem;
+  }
+  
+  /* Form container styling */
+  .bg-white {
+    background-color: #ffffff;
+  }
+  
+  .rounded-lg {
+    border-radius: 0.5rem;
+  }
+  
+  .shadow {
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  }
+  
+  .max-w-xl {
+    max-width: 36rem;
+  }
+  
+  .mx-auto {
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .space-y-4 > * + * {
+    margin-top: 1rem;
+  }
+  
+  /* Form inputs styling */
+  input[type="text"],
+  input[type="date"],
+  input[type="number"],
+  select,
+  textarea {
+    width: 100%;
+    border: 1px solid #d1d5db;
+    border-radius: 0.25rem;
+    padding: 0.5rem 0.75rem;
+    font-size: 1rem;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  }
+  
+  input[type="text"]:focus,
+  input[type="date"]:focus,
+  input[type="number"]:focus,
+  select:focus,
+  textarea:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25);
+  }
+  
+  textarea {
+    min-height: 6rem;
+    resize: vertical;
+  }
+  
+  /* Button styling */
+  button {
+    cursor: pointer;
+    transition: background-color 0.15s ease-in-out;
+  }
+  
+  .flex-1 {
+    flex: 1 1 0%;
+  }
+  
+  .space-x-4 > * + * {
+    margin-left: 1rem;
+  }
+  
+  .mt-4 {
+    margin-top: 1rem;
+  }
+  
+  .py-2 {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+  }
+  
+  .rounded {
+    border-radius: 0.25rem;
+  }
+  
+  /* Button variants */
+  .bg-blue-600 {
+    background-color: #1e293b; /* Slate-800 dla przycisków głównych */
+  }
+  
+  .text-white {
+    color: #ffffff;
+  }
+  
+  .hover\:bg-blue-700:hover {
+    background-color: #0f172a; /* Slate-900 dla hover */
+  }
+  
+  .bg-red-600 {
+    background-color: #b91c1c; /* Red-700 dla przycisku usuwania */
+  }
+  
+  .hover\:bg-red-700:hover {
+    background-color: #991b1b; /* Red-800 dla hover */
+  }
+  
+  /* Przyciski powiadomień */
+  .bg-yellow-500 {
+    background-color: #ca8a04; /* Yellow-600 dla przycisków powiadomień */
+  }
+  
+  .hover\:bg-yellow-600:hover {
+    background-color: #a16207; /* Yellow-700 dla hover */
+  }
+  
+  /* Loading state */
+  .h-screen {
+    height: 100vh;
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 640px) {
+    .flex.space-x-4 {
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+    
+    .flex.space-x-4 > * + * {
+      margin-left: 0;
+    }
+  }

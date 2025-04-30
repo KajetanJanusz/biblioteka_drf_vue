@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { bookApi } from '../services/apiServices';
+import '../styles/AddBook.css'
 
 const AddBook = () => {
   const [form, setForm] = useState({
@@ -108,18 +109,20 @@ const AddBook = () => {
   }
 
   return (
-    <div className="add-book-container">
-       <div className="header">
+    <div className="min-h-screen bg-gray-100 p-4">
           {/* Przycisk Wstecz */}
-          <button onClick={() => navigate(-1)} className="back-button">←</button>
-          <h2>Dodaj książkę</h2>
-      </div>
+          <header className="bg-blue-800 text-white flex items-center p-4">
+          <button onClick={() => navigate(-1)} className="mr-4 text-2xl">←</button>
+          <h1 className="header-title">Dodaj książkę</h1>
+          </header>
+      
 
       <form onSubmit={handleSubmit} className="add-book-form">
         {error && <p className="error-message">{error}</p>} {/* Wyświetlanie błędów */}
 
+<div className="bg-white rounded-lg shadow p-6 max-w-xl mx-auto space-y-4">
+
         <div className="form-group">
-          <label htmlFor="title">Tytuł</label>
           <input
             type="text"
             id="title"
@@ -133,7 +136,6 @@ const AddBook = () => {
         </div>
 
         <div className="form-group">
-          <label htmlFor="author">Autor</label>
           <input
             type="text"
             id="author"
@@ -147,7 +149,6 @@ const AddBook = () => {
         </div>
 
         <div className="form-group">
-          <label htmlFor="category">Kategoria</label>
           <select
             id="category"
             name="category"
@@ -170,7 +171,6 @@ const AddBook = () => {
         </div>
 
         <div className="form-group">
-          <label htmlFor="published_date">Data publikacji</label>
           <input
             type="date" // Standardowy input daty w HTML5
             id="published_date"
@@ -183,7 +183,6 @@ const AddBook = () => {
         </div>
 
         <div className="form-group">
-          <label htmlFor="isbn">ISBN</label>
           <input
             type="text"
             id="isbn"
@@ -197,7 +196,6 @@ const AddBook = () => {
         </div>
 
         <div className="form-group">
-          <label htmlFor="total_copies">Liczba egzemplarzy</label>
           <input
             type="number" // Input dla liczb
             id="total_copies"
@@ -211,9 +209,10 @@ const AddBook = () => {
           />
         </div>
 
-        <button type="submit" className="submit-button">
+        <button type="submit" className="flex-1 bg-blue-600 text-white py-2 rounded hover:bg-blue-700">
           Dodaj książkę
         </button>
+        </div>
       </form>
     </div>
   );

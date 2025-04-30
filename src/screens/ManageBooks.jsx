@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { bookApi } from '../services/apiServices.ts';
+import '../styles/ManageBooks.css';
 
 const ListBooks = () => {
   const [books, setBooks] = useState([]);
@@ -63,103 +64,67 @@ const ListBooks = () => {
   });
 
   return (
-    <div className="bg-[#f9f7f1] min-h-screen">
+    <div className="min-h-screen">
       {/* Header */}
-      <div className="bg-[#2c3e50] text-[#f9f7f1] p-4 flex justify-between items-center shadow-md">
-        <div className="flex items-center">
+      <header>
+        <div className="header-left">
           <button 
             onClick={toggleMenu} 
-            className="p-2 focus:outline-none mr-4"
+            className="menu-button"
           >
-            <div className="space-y-1">
-              <div className="w-6 h-0.5 bg-[#f9f7f1]"></div>
-              <div className="w-6 h-0.5 bg-[#f9f7f1]"></div>
-              <div className="w-6 h-0.5 bg-[#f9f7f1]"></div>
-            </div>
+            <span />
+            <span />
+            <span />
           </button>
-          <h1 className="text-2xl font-bold font-serif">Książki</h1>
+          <h1>Książki</h1>
         </div>
         <button 
-          className="bg-[#2c3e50] py-2 px-4 rounded-full text-[#f9f7f1] font-bold shadow-md"
+          className="add-book-btn"
           onClick={() => navigate('/add-book')}
         >
           + Dodaj książkę
         </button>
-      </div>
+      </header>
 
-      {/* Side Menu (when open) */}
+      {/* Side Menu */}
       {menuOpen && (
-        <div className="fixed inset-0 z-20 flex">
-          <div 
-            className="bg-black bg-opacity-60 flex-grow"
-            onClick={toggleMenu}
-          ></div>
-          <div className="bg-[#f9f7f1] w-4/5 md:w-1/4 shadow-lg">
-            <div className="bg-[#2c3e50] p-6">
-              <h2 className="text-2xl font-bold text-[#f9f7f1] font-serif">Menu</h2>
+        <div className="side-menu-overlay" onClick={toggleMenu}>
+          <nav className="side-menu" onClick={e => e.stopPropagation()}>
+            <div className="menu-header">
+              <h2>Menu</h2>
             </div>
-            <div>
-              <button 
-                className="w-full py-4 px-6 text-left border-b border-[#e8e0d5] text-[#2c3e50] font-sans hover:bg-gray-100"
-                onClick={() => navigateTo('dashboard-employee')}
-              >
-                Strona główna
-              </button>
-              <button 
-                className="w-full py-4 px-6 text-left border-b border-[#e8e0d5] text-[#2c3e50] font-sans hover:bg-gray-100"
-                onClick={() => navigateTo('manage-books')}
-              >
-                Zarządzaj książkami
-              </button>
-              <button 
-                className="w-full py-4 px-6 text-left border-b border-[#e8e0d5] text-[#2c3e50] font-sans hover:bg-gray-100"
-                onClick={() => navigateTo('manage-users')}
-              >
-                Zarządzaj użytkownikami
-              </button>
-              <button 
-                className="w-full py-4 px-6 text-left border-b border-[#e8e0d5] text-[#2c3e50] font-sans hover:bg-gray-100"
-                onClick={() => navigateTo('logout')}
-              >
-                Wyloguj się
-              </button>
-            </div>
-          </div>
+            <button onClick={() => navigateTo('dashboard-employee')} className="menu-item">Strona główna</button>
+            <button onClick={() => navigateTo('manage-books')} className="menu-item">Książki</button>
+            <button onClick={() => navigateTo('manage-users')} className="menu-item">Zarządzaj użytkownikami</button>
+            <button onClick={() => navigateTo('logout')} className="menu-item">Wyloguj</button>
+          </nav>
         </div>
       )}
 
       {/* Search Bar */}
-      <div className="p-4 bg-white shadow-sm border-b border-[#e8e0d5]">
+      <div className="search-container">
         <input
-          className="w-full h-11 px-4 border border-[#d1c7b7] rounded-full focus:outline-none focus:ring-2 focus:ring-[#2c3e50]"
-          placeholder="Szukaj książek po tytule lub autorze..."
+          type="text"
+          placeholder="Szukaj po tytule lub autorze..."
           value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
+          onChange={e => setSearchQuery(e.target.value)}
+          className="search-input"
         />
       </div>
 
       {/* Category Filter */}
-      <div className="px-4 py-2">
-        <h2 className="text-lg font-bold my-3 text-[#2c3e50] font-serif">Kategorie:</h2>
-        <div className="flex overflow-x-auto pb-2 hide-scrollbar">
+      <div className="category-container">
+        <div className="categories-scroll">
           <button
-            className={`px-4 py-2 mx-1 rounded-full border ${
-              selectedCategory === null 
-                ? 'bg-[#2c3e50] text-white border-[#2c3e50] font-bold' 
-                : 'bg-white text-[#2c3e50] border-[#d1c7b7]'
-            }`}
             onClick={() => setSelectedCategory(null)}
+            className={`category-btn ${selectedCategory === null ? 'active' : 'inactive'}`}
           >
             Wszystkie
           </button>
           {categories.map(categoryId => (
             <button
               key={`category-${categoryId}`}
-              className={`px-4 py-2 mx-1 rounded-full border whitespace-nowrap ${
-                selectedCategory === categoryId 
-                  ? 'bg-[#2c3e50] text-white border-[#2c3e50] font-bold' 
-                  : 'bg-white text-[#2c3e50] border-[#d1c7b7]'
-              }`}
+              className={`category-btn ${selectedCategory === categoryId ? 'active' : 'inactive'}`}
               onClick={() => setSelectedCategory(categoryId)}
             >
               {getCategoryName(categoryId)}
@@ -169,14 +134,14 @@ const ListBooks = () => {
       </div>
 
       {/* Book List */}
-      <div className="px-4 py-2">
+      <main className="p-4">
         {loading ? (
-          <div className="flex justify-center items-center h-64">
-            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#0066CC]"></div>
+          <div className="loading-container">
+            <span>Ładowanie…</span>
           </div>
         ) : (
           <>
-            <p className="m-4 text-[#7d6e56] italic">
+            <p className="book-count">
               Znaleziono {filteredBooks.length} {' '}
               {filteredBooks.length === 1
                 ? 'książkę'
@@ -186,36 +151,28 @@ const ListBooks = () => {
             </p>
             
             {filteredBooks.length === 0 ? (
-              <p className="text-center py-10 text-[#7d6e56] italic font-serif">
+              <p className="empty-results">
                 Brak wyników dla podanych kryteriów
               </p>
             ) : (
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+              <div className="books-grid">
                 {filteredBooks.map((book, index) => {
                   const isAvailable = book.available_copies > 0;
                   
                   return (
                     <div 
                       key={`book-${index}`}
-                      className={`bg-white p-4 rounded-lg shadow-md border-l-4 ${
-                        isAvailable ? 'border-l-[#2c3e50]' : 'border-l-[#922b21] opacity-70'
-                      } cursor-pointer`}
+                      className={`book-card ${isAvailable ? 'available' : 'unavailable'}`}
                       onClick={() => navigate(`/book-employee/${book.id}`)}
                     >
-                      <h3 className="text-base font-bold text-[#2c3e50] mb-3 text-center font-serif">
-                        {book.title}
-                      </h3>
+                      <h3 className="book-title">{book.title}</h3>
                       
-                      <div className="bg-[#eee8dc] px-3 py-1.5 rounded-md border border-[#d1c7b7] mx-auto text-center mb-3">
-                        <span className="text-xs text-[#7d6e56] font-medium">
-                          {getCategoryName(book.category)}
-                        </span>
+                      <div className="category-badge">
+                        <span>{getCategoryName(book.category)}</span>
                       </div>
                       
-                      <div className={`px-3 py-1.5 rounded-full mx-auto text-center ${
-                        isAvailable ? 'bg-[#4caf50]' : 'bg-[#f44336]'
-                      }`}>
-                        <span className="text-xs text-white font-bold">
+                      <div className={`availability-badge ${isAvailable ? 'in-stock' : 'out-of-stock'}`}>
+                        <span>
                           {isAvailable
                             ? `${book.available_copies} ${
                                 book.available_copies === 1
@@ -234,7 +191,7 @@ const ListBooks = () => {
             )}
           </>
         )}
-      </div>
+      </main>
     </div>
   );
 };

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { bookApi } from '../services/apiServices';
+import '../styles/ReturnApprove.css'
 
 const ReturnApprove = () => {
   const navigate = useNavigate();
@@ -66,23 +67,21 @@ const ReturnApprove = () => {
   }
 
   return (
-    <div className="safe-area">
-      <div className="container">
+    <div className="min-h-screen bg-gray-100 p-4">
         {/* Header z przyciskiem Wróć */}
-        <div className="header">
-          <button onClick={() => navigate(-1)} className="back-button">
+        <header className="bg-blue-800 text-white flex items-center p-4">
+          <button onClick={() => navigate(-1)} className="mr-4 text-2xl">
             ←
           </button>
           <h1 className="header-title">Zatwierdź Zwrot</h1>
-        </div>
+        </header>
 
         <div className="buttons-container">
           <button className="button" onClick={approveReturn}>
-            Zatwierdź zwrót
+            Zatwierdź zwrot
           </button>
         </div>
       </div>
-    </div>
   );
 };
 

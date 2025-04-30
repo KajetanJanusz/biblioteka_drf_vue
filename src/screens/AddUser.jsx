@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { userApi } from '../services/apiServices'; // Upewnij się, że ścieżka jest poprawna
+import '../styles/AddUser.css'
 
 const AddUser = () => {
   // Stan formularza zgodny z interfejsem UserData
@@ -60,111 +61,112 @@ const AddUser = () => {
     // Używamy fragmentu <>...</>, aby uniknąć dodatkowego diva
     <>
       {/* Nagłówek */}
-      <div style={{ display: 'flex', alignItems: 'center', padding: '15px', backgroundColor: '#eee' }}> {/* Przykładowy inline styl dla nagłówka */}
+      {/* <div style={{ display: 'flex', alignItems: 'center', padding: '15px', backgroundColor: '#eee' }}>
         <button onClick={() => navigate(-1)} aria-label="Wróć" style={{ background: 'none', border: 'none', fontSize: '24px', cursor: 'pointer', marginRight: '15px' }}>
           ←
         </button>
         <h2>Dodaj użytkownika</h2>
-      </div>
+      </div> */}
+       <div className="min-h-screen bg-gray-100 p-4">
+          {/* Przycisk Wstecz */}
+          <header className="bg-blue-800 text-white flex items-center p-4">
+          <button onClick={() => navigate(-1)} className="mr-4 text-2xl">←</button>
+          <h1 className="header-title">Dodaj książkę</h1>
+          </header>
+          
 
       {/* Kontener formularza */}
-      <div style={{ maxWidth: '600px', margin: '20px auto', padding: '20px', border: '1px solid #ccc' }}> {/* Przykładowy inline styl dla kontenera */}
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className="add-user-form">
           {/* Wyświetlanie błędu */}
-          {error && <p style={{ color: 'red', border: '1px solid red', padding: '10px', marginBottom: '15px' }}>{error}</p>}
+          {error && <p className="error-message">{error}</p>} {/* Wyświetlanie błędów */}
+
+          <div className="bg-white rounded-lg shadow p-6 max-w-xl mx-auto space-y-4">
 
           {/* Pole Nazwa użytkownika */}
-          <div style={{ marginBottom: '15px' }}>
-            <label htmlFor="username">Nazwa użytkownika *</label>
+          <div className="form-group">
             <input
               type="text"
               id="username"
               name="username"
+              placeholder="Nazwa uzytkownika"
               value={form.username}
               onChange={handleChange}
               required
-              style={{ width: '100%', padding: '8px', boxSizing: 'border-box' }} // Przykładowe style inline
             />
           </div>
 
           {/* Pole Imię */}
-          <div style={{ marginBottom: '15px' }}>
-            <label htmlFor="first_name">Imię *</label>
+          <div className="form-group">
             <input
               type="text"
               id="first_name"
               name="first_name"
+              placeholder="Imię"
               value={form.first_name}
               onChange={handleChange}
               required
-              style={{ width: '100%', padding: '8px', boxSizing: 'border-box' }}
             />
           </div>
 
           {/* Pole Nazwisko */}
-          <div style={{ marginBottom: '15px' }}>
-            <label htmlFor="last_name">Nazwisko *</label>
+          <div className="form-group">
             <input
               type="text"
               id="last_name"
               name="last_name"
+              placeholder="Nazwisko"
               value={form.last_name}
               onChange={handleChange}
               required
-              style={{ width: '100%', padding: '8px', boxSizing: 'border-box' }}
             />
           </div>
 
           {/* Pole Email */}
-          <div style={{ marginBottom: '15px' }}>
-            <label htmlFor="email">Email *</label>
+          <div className="form-group">
             <input
               type="email" // Użycie typu email dla walidacji przeglądarki
               id="email"
               name="email"
+              placeholder="E-mail"
               value={form.email}
               onChange={handleChange}
               required
-              style={{ width: '100%', padding: '8px', boxSizing: 'border-box' }}
             />
           </div>
 
           {/* Pole Hasło */}
-          <div style={{ marginBottom: '15px' }}>
-            <label htmlFor="password">Hasło *</label>
+          <div className="form-group">
             <input
               type="password" // Typ password maskuje wpisywany tekst
               id="password"
               name="password"
+              placeholder="Hasło"
               value={form.password}
               onChange={handleChange}
               required
-              style={{ width: '100%', padding: '8px', boxSizing: 'border-box' }}
             />
           </div>
 
           {/* Pole Telefon */}
-          <div style={{ marginBottom: '15px' }}>
-            <label htmlFor="phone">Telefon</label>
+          <div className="form-group">
             <input
               type="tel" // Typ tel może być pomocny na urządzeniach mobilnych
               id="phone"
               name="phone"
+              placeholder="Numer telefonu"
               value={form.phone}
               onChange={handleChange}
-              style={{ width: '100%', padding: '8px', boxSizing: 'border-box' }}
             />
           </div>
 
           {/* Checkbox Is Employee */}
-          <div style={{ marginBottom: '15px', display: 'flex', alignItems: 'center' }}>
+          <div className="form-group">
             <input
               type="checkbox"
               id="is_employee"
               name="is_employee"
               checked={form.is_employee}
               onChange={handleChange}
-              style={{ marginRight: '10px' }}
             />
             <label htmlFor="is_employee">Jest pracownikiem?</label>
           </div>
@@ -186,9 +188,10 @@ const AddUser = () => {
 
 
           {/* Przycisk Zapisz */}
-          <button type="submit" style={{ padding: '10px 20px', cursor: 'pointer' }}>
+          <button type="submit" className="flex-1 bg-blue-600 text-white py-2 rounded hover:bg-blue-700">
             Zapisz użytkownika
           </button>
+          </div>
         </form>
       </div>
     </>
