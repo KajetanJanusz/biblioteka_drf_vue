@@ -1,12 +1,10 @@
 import React, { useState } from 'react';
-import { useNavigate, useParams, useLocation } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { bookApi } from '../services/apiServices';
 
 const ReturnBook = () => {
   const navigate = useNavigate();
   const { rentalId } = useParams();
-  const location = useLocation();
-  const notificationId = location.state?.notificationId;
   const [loading, setLoading] = useState(false);
 
   const returnBook = async () => {
@@ -46,7 +44,7 @@ const ReturnBook = () => {
     }
   };
 
-  if (!rentalId || !notificationId) {
+  if (!rentalId) {
     return (
       <div style={styles.safeArea}>
         <div style={styles.container}>
@@ -57,9 +55,7 @@ const ReturnBook = () => {
             <h1 style={styles.headerTitle}>Powrót</h1>
           </div>
           <div style={styles.contentContainer}>
-            <p style={styles.errorText}>
-              {!rentalId ? 'Rental ID is missing' : 'Notification ID is missing'}
-            </p>
+            <p style={styles.errorText}>Rental ID is missing</p>
             <button style={styles.button} onClick={() => navigate(-1)}>
               <span style={styles.buttonText}>Go Back</span>
             </button>
@@ -112,118 +108,139 @@ const ReturnBook = () => {
   );
 };
 
-// Inline styles to replace React Native StyleSheet
 const styles = {
   safeArea: {
     flex: 1,
-    backgroundColor: '#2c3e50',
+    backgroundColor: '#f5f5f5',
     minHeight: '100vh',
-    display: 'flex',
-    flexDirection: 'column',
   },
   container: {
-    flex: 1,
-    backgroundColor: '#f9f7f1',
-    minHeight: '100vh',
+    maxWidth: '600px',
+    margin: '0 auto',
+    padding: '16px',
     display: 'flex',
     flexDirection: 'column',
+    height: '100%',
   },
   header: {
     display: 'flex',
-    flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#2c3e50',
-    padding: '16px',
-    boxShadow: '0 2px 4px rgba(0, 0, 0, 0.2)',
-  },
-  headerTitle: {
-    fontSize: '22px',
-    fontWeight: 'bold',
-    color: '#f9f7f1',
-    marginLeft: '16px',
-    fontFamily: 'Georgia, serif',
-    margin: 0,
-  },
-  buttonsContainer: {
-    flex: 1,
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: '20px',
-  },
-  contentContainer: {
-    flex: 1,
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: '20px',
+    marginBottom: '24px',
+    paddingBottom: '12px',
+    borderBottom: '1px solid #e0e0e0',
   },
   backButton: {
     background: 'none',
     border: 'none',
-    padding: '8px',
     cursor: 'pointer',
+    fontSize: '24px',
+    padding: '8px',
+    marginRight: '8px',
+    color: '#1565c0',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: '50%',
+    width: '40px',
+    height: '40px',
+    transition: 'background-color 0.2s',
   },
   backButtonText: {
     fontSize: '24px',
-    color: '#f9f7f1',
-    fontWeight: 'bold',
+    lineHeight: '1',
+  },
+  headerTitle: {
+    fontSize: '22px',
+    fontWeight: '600',
+    margin: '0',
+    color: '#333',
+  },
+  buttonsContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '16px',
+    marginTop: '20px',
   },
   button: {
-    backgroundColor: '#2c3e50',
-    padding: '16px',
-    borderRadius: '8px',
-    marginBottom: '20px',
-    width: '80%',
-    textAlign: 'center',
-    boxShadow: '0 2px 4px rgba(0, 0, 0, 0.2)',
+    backgroundColor: '#1565c0',
     border: 'none',
+    borderRadius: '8px',
+    color: 'white',
     cursor: 'pointer',
+    padding: '16px',
+    fontSize: '16px',
+    fontWeight: '500',
+    transition: 'background-color 0.2s',
+    boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
   },
   buttonExtend: {
-    backgroundColor: '#27ae60',
-    padding: '16px',
-    borderRadius: '8px',
-    marginBottom: '20px',
-    width: '80%',
-    textAlign: 'center',
-    boxShadow: '0 2px 4px rgba(0, 0, 0, 0.2)',
+    backgroundColor: '#4caf50',
     border: 'none',
+    borderRadius: '8px',
+    color: 'white',
     cursor: 'pointer',
+    padding: '16px',
+    fontSize: '16px',
+    fontWeight: '500',
+    transition: 'background-color 0.2s',
+    boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
   },
   buttonText: {
-    color: '#f9f7f1',
-    fontSize: '16px',
-    fontWeight: 'bold',
-    fontFamily: 'Avenir, "Segoe UI", sans-serif',
+    fontWeight: '500',
   },
   loadingContainer: {
-    flex: 1,
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
+    height: '200px',
   },
   spinner: {
     width: '40px',
     height: '40px',
-    border: '4px solid rgba(44, 62, 80, 0.2)',
+    border: '4px solid rgba(0, 0, 0, 0.1)',
     borderRadius: '50%',
-    borderTop: '4px solid #2c3e50',
+    borderTop: '4px solid #1565c0',
     animation: 'spin 1s linear infinite',
   },
+  contentContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: '32px 16px',
+    gap: '24px',
+  },
   errorText: {
+    color: '#d32f2f',
+    fontSize: '18px',
     textAlign: 'center',
-    margin: '20px 0',
-    fontSize: '16px',
-    color: '#922b21',
-    fontFamily: 'Avenir, "Segoe UI", sans-serif',
   },
   '@keyframes spin': {
     '0%': { transform: 'rotate(0deg)' },
     '100%': { transform: 'rotate(360deg)' },
-  }
+  },
 };
+
+// Dodanie animacji dla loadera
+const spinKeyframes = `
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+`;
+
+// Dodanie stylu globalnego dla animacji
+const addGlobalStyle = (css) => {
+  const head = document.head || document.getElementsByTagName('head')[0];
+  const style = document.createElement('style');
+  style.type = 'text/css';
+  style.appendChild(document.createTextNode(css));
+  head.appendChild(style);
+};
+
+// Dodanie animacji po renderowaniu komponentu
+if (typeof window !== 'undefined') {
+  addGlobalStyle(spinKeyframes);
+}
 
 export default ReturnBook;

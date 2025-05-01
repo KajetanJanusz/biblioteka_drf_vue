@@ -211,10 +211,12 @@ const DashboardCustomer = () => {
                 <div
                   className={
                     'inline-block mt-2 px-2 py-1 text-xs rounded text-white ' +
-                    (b.is_extended ? 'bg-gray-600' : 'bg-blue-800')
+                    (b.status === 'pending' ? 'bg-yellow-500' : 
+                     b.is_extended ? 'bg-gray-600' : 'bg-blue-800')
                   }
                 >
-                  {b.is_extended ? 'Przedłużony' : daysRemaining(b.due_date)}
+                  {b.status === 'pending' ? 'Oczekujący' : 
+                   b.is_extended ? 'Przedłużony' : daysRemaining(b.due_date)}
                 </div>
                 <div className="text-xs text-gray-600 mt-1">
                   {formatDate(b.rental_date)} – {formatDate(b.due_date)}
