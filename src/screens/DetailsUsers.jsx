@@ -54,6 +54,7 @@ const DetailUsers = () => {
       alert('Użytkownik zapisany');
       setEditing(false);
       fetchUserDetails();
+      navigate(-1);
     } catch (err) {
       alert(err.response?.data?.detail || 'Błąd zapisu');
     } finally {
