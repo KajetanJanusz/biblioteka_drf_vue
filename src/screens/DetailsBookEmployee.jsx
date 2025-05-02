@@ -108,7 +108,7 @@ const BookDetails = () => {
         >
           ←
         </button>
-        <h1 className="menu-button">Powrót</h1>
+        <h1>Powrót</h1>
       </header>
 
       <div className="container mx-auto p-4">
