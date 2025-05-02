@@ -78,11 +78,9 @@ const DashboardCustomer = () => {
     />
 
     {/* Menu boczne */}
-    <nav className="w-64 bg-white p-6 shadow-lg border-l border-gray-200">
+    <nav className="w-64 bg-white p-4">
       {/* Nagłówek */}
-      <div className="text-lg font-semibold text-white bg-blue-700 px-4 py-2 rounded-md mb-6 shadow-sm">
-        Menu
-      </div>
+      {/* <h2 className="text-xl mb-4">Menu</h2> */}
 
       {/* Przyciski */}
       <button
@@ -110,7 +108,7 @@ const DashboardCustomer = () => {
         }}
         className="block w-full text-left px-4 py-2 rounded-md text-gray-800 hover:bg-red-50 hover:text-red-600 transition"
       >
-        Wyloguj się
+      Wyloguj
       </button>
     </nav>
   </div>

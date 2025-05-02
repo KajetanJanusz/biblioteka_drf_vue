@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { bookApi } from '../services/apiServices';
+import '../styles/ReturnBook.css'
 
 const ReturnBook = () => {
   const navigate = useNavigate();
@@ -46,18 +47,18 @@ const ReturnBook = () => {
 
   if (!rentalId) {
     return (
-      <div style={styles.safeArea}>
-        <div style={styles.container}>
-          <div style={styles.header}>
-            <button onClick={() => navigate(-1)} style={styles.backButton}>
-              <span style={styles.backButtonText}>←</span>
+      <div className="safe-area">
+        <div className="container">
+          <div className="header">
+            <button onClick={() => navigate(-1)} className="back-button">
+            ←
             </button>
-            <h1 style={styles.headerTitle}>Powrót</h1>
+            <h1 className="header-title">Powrót</h1>
           </div>
-          <div style={styles.contentContainer}>
+          <div className="content-container">
             <p style={styles.errorText}>Rental ID is missing</p>
-            <button style={styles.button} onClick={() => navigate(-1)}>
-              <span style={styles.buttonText}>Go Back</span>
+            <button className="button" onClick={() => navigate(-1)}>
+              Go Back
             </button>
           </div>
         </div>
@@ -67,16 +68,16 @@ const ReturnBook = () => {
 
   if (loading) {
     return (
-      <div style={styles.safeArea}>
-        <div style={styles.container}>
-          <div style={styles.header}>
-            <button onClick={() => navigate(-1)} style={styles.backButton}>
-              <span style={styles.backButtonText}>←</span>
+      <div className="safe-area">
+        <div className="container">
+          <div className="header">
+            <button onClick={() => navigate(-1)} className="back-button">
+              ←
             </button>
-            <h1 style={styles.headerTitle}>Powrót</h1>
+            <h1 className="header-title">Powrót</h1>
           </div>
-          <div style={styles.loadingContainer}>
-            <div style={styles.spinner}></div>
+          <div className="loading-container">
+          <div className="spinner"></div>
           </div>
         </div>
       </div>
@@ -84,27 +85,26 @@ const ReturnBook = () => {
   }
 
   return (
-    <div style={styles.safeArea}>
-      <div style={styles.container}>
-        {/* Header with Back Button */}
-        <div style={styles.header}>
-          <button onClick={() => navigate(-1)} style={styles.backButton}>
-            <span style={styles.backButtonText}>←</span>
+    <div className="min-h-screen bg-gray-100 p-4">
+        {/* Header z przyciskiem Wróć */}
+        <header className="bg-blue-800 text-white flex items-center p-4">
+          <button onClick={() => navigate(-1)} className="back-button">
+            ←
           </button>
-          <h1 style={styles.headerTitle}>Powrót</h1>
-        </div>
+          <h1 className="header-title">Powrót</h1>
+          </header>
 
-        <div style={styles.buttonsContainer}>
-          <button style={styles.button} onClick={returnBook}>
-            <span style={styles.buttonText}>Zwróć książkę</span>
+
+          <div className="buttons-container">
+          <button className="button" onClick={returnBook}>
+            Zwróć książkę
           </button>
 
-          <button style={styles.buttonExtend} onClick={extendRental}>
-            <span style={styles.buttonText}>Przedłuż o 7 dni</span>
+          <button className="buttonExtend" onClick={extendRental}>
+            Przedłuż o 7 dni
           </button>
         </div>
-      </div>
-    </div>
+        </div>
   );
 };
 

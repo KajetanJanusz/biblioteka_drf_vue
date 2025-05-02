@@ -40,12 +40,10 @@ const ManageUsers = () => {
       {/* Header with Menu Button */}
       <header>
         <div className="header-left">
-          <button onClick={toggleMenu} className="p-2 focus:outline-none mr-4">
-            <div className="space-y-1">
-              <div className="w-6 h-0.5 bg-[#f9f7f1]"></div>
-              <div className="w-6 h-0.5 bg-[#f9f7f1]"></div>
-              <div className="w-6 h-0.5 bg-[#f9f7f1]"></div>
-            </div>
+          <button onClick={toggleMenu} className="menu-button">
+            <span />
+            <span />
+            <span />
           </button>
           <h1>Zarządzanie użytkownikami</h1>
         </div>
@@ -53,7 +51,8 @@ const ManageUsers = () => {
           className="add-user-btn"
           onClick={() => navigate('/add-user')}
         >
-          + Dodaj użytkownika
+          <span className="icon"></span>
+          Dodaj użytkownika
         </button>
       </header>
 
@@ -61,9 +60,9 @@ const ManageUsers = () => {
       {menuOpen && (
         <div className="side-menu-overlay" onClick={toggleMenu}>
         <nav className="side-menu" onClick={e => e.stopPropagation()}>
-          <div className="menu-header">
+          {/* <div className="menu-header">
             <h2>Menu</h2>
-          </div>
+          </div> */}
           <button onClick={() => navigateTo('dashboard-employee')} className="menu-item">Strona główna</button>
           <button onClick={() => navigateTo('manage-books')} className="menu-item">Książki</button>
           <button onClick={() => navigateTo('manage-users')} className="menu-item">Zarządzaj użytkownikami</button>

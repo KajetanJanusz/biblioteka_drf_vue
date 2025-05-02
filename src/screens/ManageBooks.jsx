@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { bookApi } from '../services/apiServices.ts';
 import '../styles/ManageBooks.css';
@@ -10,10 +10,25 @@ const ListBooks = () => {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [menuOpen, setMenuOpen] = useState(false);
   const navigate = useNavigate();
+  const menuRef = useRef(null); // Dodane brakujące useRef
 
   useEffect(() => {
     fetchBooks();
   }, []);
+
+  // Obsługa kliknięcia poza menu, aby je zamknąć
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (menuRef.current && !menuRef.current.contains(event.target) && menuOpen) {
+        setMenuOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [menuOpen]);
 
   const fetchBooks = async () => {
     try {
@@ -82,22 +97,66 @@ const ListBooks = () => {
           className="add-book-btn"
           onClick={() => navigate('/add-book')}
         >
-          + Dodaj książkę
+          <span className="icon"></span>
+          Dodaj Ksiązkę
         </button>
       </header>
 
       {/* Side Menu */}
       {menuOpen && (
-        <div className="side-menu-overlay" onClick={toggleMenu}>
-          <nav className="side-menu" onClick={e => e.stopPropagation()}>
+        <div className="overlay" onClick={(e) => {
+          // Zatrzymaj propagację zdarzenia kliknięcia tylko na overlay
+          if (e.target === e.currentTarget) {
+            toggleMenu();
+          }
+        }}>
+          <div
+            ref={menuRef}
+            className={`menu ${menuOpen ? 'open' : ''}`}
+            onClick={(e) => e.stopPropagation()} // Zatrzymaj propagację kliknięć wewnątrz menu
+          >
             <div className="menu-header">
-              <h2>Menu</h2>
+              <h2 className="menu-title">Menu</h2>
             </div>
-            <button onClick={() => navigateTo('dashboard-employee')} className="menu-item">Strona główna</button>
-            <button onClick={() => navigateTo('manage-books')} className="menu-item">Książki</button>
-            <button onClick={() => navigateTo('manage-users')} className="menu-item">Zarządzaj użytkownikami</button>
-            <button onClick={() => navigateTo('logout')} className="menu-item">Wyloguj</button>
-          </nav>
+            <nav className="side-menu">
+              <button
+                onClick={() => {
+                  navigate('/dashboard-employee');
+                  setMenuOpen(false);
+                }}
+                className="block w-full text-left menu-item"
+              >
+                <span className="menu-item-text">Strona główna</span>
+              </button>
+              <button
+                onClick={() => {
+                  navigate('/manage-books');
+                  setMenuOpen(false);
+                }}
+                className="block w-full text-left menu-item"
+              >
+                <span className="menu-item-text">Zarządzaj książkami</span>
+              </button>
+              <button
+                onClick={() => {
+                  navigate('/manage-users');
+                  setMenuOpen(false);
+                }}
+                className="block w-full text-left menu-item"
+              >
+                <span className="menu-item-text">Zarządzaj użytkownikami</span>
+              </button>
+              <button
+                onClick={() => {
+                  navigate('/logout');
+                  setMenuOpen(false);
+                }}
+                className="block w-full text-left menu-item"
+              >
+                <span className="menu-item-text">Wyloguj się</span>
+              </button>
+            </nav>
+          </div>
         </div>
       )}
 

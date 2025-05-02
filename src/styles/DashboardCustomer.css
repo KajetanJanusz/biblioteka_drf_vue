@@ -1,5 +1,7 @@
 * {
   box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 /* Reset i tło */
@@ -19,8 +21,13 @@ body, html {
   /* Layout ogólny */
   .min-h-screen {
     min-height: 100vh;
-    width: 100%;
+    width: 100vw;
     background: linear-gradient(180deg, #f9fbff 0%, #f3f6fc 100%);
+    font-family: 'Inter', 'Segoe UI', sans-serif;
+    color: #333;
+    line-height: 1.6;
+    position: relative;
+    overflow-x: hidden;
 }
   
   /* Header */
@@ -33,6 +40,7 @@ body, html {
     position: sticky;
     top: 0;
     z-index: 40;
+    width: 100%;
   }
   
   header h1 {
@@ -134,8 +142,12 @@ body, html {
   nav button:nth-child(2)::before {
     content: "📚";
   }
-  
+
   nav button:nth-child(3)::before {
+    content: "👥";
+  }
+
+  nav button:nth-child(4)::before {
     content: "🚪";
   }
   

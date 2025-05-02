@@ -16,7 +16,7 @@
   
   .min-h-screen {
     min-height: 100vh;
-    width: 100%;
+    width: 100vw;
     display: flex;
     flex-direction: column;
     background: linear-gradient(180deg, #f9fbff 0%, #f3f6fc 100%);
@@ -27,7 +27,7 @@
     min-height: 100vh;
     background: linear-gradient(180deg, #f9fbff 0%, #f3f6fc 100%);
     padding: 0; /* Remove padding from the main container */
-    width: 100%; /* Ensure full width */
+    width: 100%;
     margin: 0; /* Remove margins */
     overflow-x: hidden; /* Prevent horizontal scroll */
   }
@@ -49,10 +49,7 @@ header {
     position: sticky;
     top: 0;
     z-index: 40;
-    width: 100vw; /* Using viewport width instead of 100% */
-    margin: 0; /* Remove any margins */
-    left: 0; /* Ensure alignment from the left edge */
-    right: 0; /* Ensure alignment to the right edge */
+    width: 100vw;
   }
   
   header h1 {

@@ -96,9 +96,9 @@ const DashboardEmployee = () => {
         ref={menuRef}
         className={`menu ${menuOpen ? 'open' : ''}`}
       >
-        <div className="menu-header">
+        {/* <div className="menu-header">
           <h2 className="menu-title">Menu</h2>
-        </div>
+        </div> */}
         <nav className="p-4 space-y-2">
           <button
             onClick={() => {

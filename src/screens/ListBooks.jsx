@@ -66,7 +66,7 @@ const BookList = () => {
             onClick={toggleMenu}
           />
           <nav className="w-64 bg-white p-4">
-            <h2 className="text-xl mb-4">Menu</h2>
+            {/* <h2 className="text-xl mb-4">Menu</h2> */}
             <button onClick={() => {navigate('/dashboard-customer'); toggleMenu();}} className="block mb-2">Strona główna</button>
             <button onClick={() => {navigate('/books'); toggleMenu();}} className="block mb-2">Książki</button>
             <button onClick={() => {navigate('/logout'); toggleMenu();}} className="block">Wyloguj</button>
