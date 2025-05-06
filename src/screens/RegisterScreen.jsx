@@ -38,19 +38,17 @@ const RegisterScreen = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#2c3e50] flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full bg-[#f9f7f1] p-8 rounded-lg shadow-lg">
-        <div className="text-center">
+    <div className="register-card">
               <div className="logo">
                 <BookOpen size={40} strokeWidth={2.5} className="logo-icon text-blue-600" />
               </div>
-          <h1 className="text-2xl font-bold font-serif text-[#2c3e50] mb-2">Rejestracja</h1>
-          <p className="text-gray-600 mb-8">Utwórz nowe konto</p>
-        </div>
+          <h1 className="register-title">Rejestracja</h1>
+          <p className="register-subtitle">Utwórz nowe konto</p>
+
         
-        <div className="space-y-4">
+        <div className="form-group">
           <div>
-            <label htmlFor="username" className="block text-sm font-medium text-gray-700 mb-1">
+            <label htmlFor="username" className="form-label">
               Nazwa użytkownika
             </label>
             <input
@@ -65,7 +63,7 @@ const RegisterScreen = () => {
           </div>
 
           <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+            <label htmlFor="email" className="form-label">
               E-mail
             </label>
             <input
@@ -80,7 +78,7 @@ const RegisterScreen = () => {
           </div>
 
           <div>
-            <label htmlFor="firstName" className="block text-sm font-medium text-gray-700 mb-1">
+            <label htmlFor="firstName" className="form-label">
               Imię
             </label>
             <input
@@ -95,7 +93,7 @@ const RegisterScreen = () => {
           </div>
 
           <div>
-            <label htmlFor="lastName" className="block text-sm font-medium text-gray-700 mb-1">
+            <label htmlFor="lastName" className="form-label">
               Nazwisko
             </label>
             <input
@@ -110,7 +108,7 @@ const RegisterScreen = () => {
           </div>
 
           <div>
-            <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
+            <label htmlFor="password" className="form-label">
               Hasło
             </label>
             <input
@@ -125,7 +123,7 @@ const RegisterScreen = () => {
           </div>
 
           <div>
-            <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 mb-1">
+            <label htmlFor="confirmPassword" className="form-label">
               Powtórz hasło
             </label>
             <input
@@ -143,7 +141,7 @@ const RegisterScreen = () => {
             <button
               onClick={handleRegister}
               disabled={isLoading}
-              className="w-full bg-[#1e88e5] py-3 rounded-md text-white font-bold hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-150 ease-in-out"
+              className="register-button"
             >
               {isLoading ? (
                 <div className="flex justify-center">
@@ -165,7 +163,6 @@ const RegisterScreen = () => {
             Zaloguj się
           </button>
         </div>
-      </div>
     </div>
   );
 };

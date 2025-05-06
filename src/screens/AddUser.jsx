@@ -71,7 +71,7 @@ const AddUser = () => {
           {/* Przycisk Wstecz */}
           <header className="bg-blue-800 text-white flex items-center p-4">
           <button onClick={() => navigate(-1)} className="mr-4 text-2xl">←</button>
-          <h1 className="header-title">Dodaj książkę</h1>
+          <h1 className="header-title">Dodaj uzytkownika</h1>
           </header>
           
 
